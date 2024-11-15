@@ -25,9 +25,9 @@ func (s *ScannerController) GetTransactions(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	root, err := s.uc.GetTransactions(context.Background(), r.Address, r.Level)
+	root, err := s.uc.Scan(context.Background(), r.Address, r.Level)
 	if err != nil {
-		panic(err)
+		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
 	return c.JSON(http.StatusOK, root)

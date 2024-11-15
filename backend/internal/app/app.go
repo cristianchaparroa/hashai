@@ -1,18 +1,34 @@
 package app
 
 import (
+	"hashtracker/config"
 	"hashtracker/internal/controller/http"
 	"hashtracker/internal/usecases"
 	"hashtracker/internal/usecases/repo/blockscout"
+	"hashtracker/internal/usecases/repo/thegraph"
+	validators "hashtracker/internal/usecases/validators"
+
 	server "hashtracker/pkg/httpserver"
 
 	"github.com/labstack/echo/v4"
 )
 
 func Run() {
+	cfg, err := config.New()
+	if err != nil {
+		panic(err)
+	}
+
 	healthController := http.NewHealthController()
 	txRepo := blockscout.NewTransactionRepository()
-	scannerUseCase := usecases.NewScanner(txRepo)
+	ensRepo := thegraph.NewENSRepository(cfg.TheGraphApiKey)
+	ensValidator := validators.NewENSValidator()
+
+	scannerUseCase := usecases.NewScanner(
+		txRepo,
+		ensRepo,
+		ensValidator,
+	)
 	scannerController := http.NewScannerController(scannerUseCase)
 
 	s := echo.New()
