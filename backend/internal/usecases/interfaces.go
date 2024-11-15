@@ -14,7 +14,17 @@ type ETHTransactionRepository interface {
 	GetOutTransactions(ctx context.Context, address string) (*entities.TransactionList, error)
 }
 
+type ENSRepository interface {
+	Resolve(ctx context.Context, name string) (*entities.ENSResponse, error)
+}
+
 type ScannerUseCase interface {
 	// GetTransactions all transactions on Ethereum main net associated to the specified address
 	GetTransactions(ctx context.Context, address string, level int) (*entities.TransactionList, error)
+
+	Scan(ctx context.Context, address string, level int) (*entities.TransactionList, error)
+}
+
+type ENSValidator interface {
+	IsValid(ctx context.Context, address string) bool
 }
