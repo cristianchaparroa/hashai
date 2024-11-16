@@ -22,6 +22,14 @@ type HomeProps = {
 export default function Home({ searchParams }: HomeProps) {
   const diagramBase64 = searchParams.hash;
   console.error(diagramBase64);
+
+  if (!diagramBase64) {
+    return (
+        <div>
+          <p>Incorrect hash</p>
+        </div>
+    )
+  }
   const decodedHash = decodeMermaidDiagram(diagramBase64)
 
   console.log('encodeValue', decodedHash);
@@ -33,23 +41,7 @@ export default function Home({ searchParams }: HomeProps) {
   )
 }
 
-
-function decodeBase64(base64String: string): string {
-  // First, decode the Base64 string to a Uint8Array
-  const binaryString = atob(base64String);
-  const bytes = new Uint8Array(binaryString.length);
-
-  for (let i = 0; i < binaryString.length; i++) {
-    bytes[i] = binaryString.charCodeAt(i);
-  }
-
-  // Convert the Uint8Array to a string using TextDecoder
-  // Go uses UTF-8 encoding by default
-  const decoder = new TextDecoder('utf-8');
-  return decoder.decode(bytes);
-}
-
-function decodeMermaidDiagram(encodedString) {
+function decodeMermaidDiagram(encodedString:string) {
   // Use built-in decodeURIComponent to decode the URL-encoded string
   return decodeURIComponent(encodedString);
 }
