@@ -3,9 +3,14 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+<<<<<<< HEAD
   /* padding: 6rem; */
   min-height: 100vh;
   width: 100%;
+=======
+  padding: 6rem;
+  min-height: 100vh;
+>>>>>>> main
 }
 
 .description {
@@ -229,7 +234,10 @@
     transform: rotate(0deg);
   }
 }
+<<<<<<< HEAD
 
 .mermaid {
   width: 100%;
 }
+=======
+>>>>>>> main

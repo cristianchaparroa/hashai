@@ -21,38 +21,6 @@ export const Mermaid = ({ encodeValue }: any) => {
   const [error, setError] = useState('')
   const [decodedOutput, setDecodedOutput] = useState('')
 
-  console.log('decodedOutput', decodedOutput);
-
-  // console.log('decodedOutput', decodedOutput);
-
-  function decodeBase64(base64Text: string) {
-    // Check if the input is a string
-    if (typeof base64Text !== 'string') {
-      console.error("Input must be a string.");
-      return null;
-    }
-
-    // Check if the string has a valid Base64 format
-    const base64Regex = /^[A-Za-z0-9+/=]+$/;
-    if (!base64Regex.test(base64Text)) {
-      console.error("Invalid Base64 format.");
-      return null;
-    }
-
-    try {
-      // Decode the Base64 string
-      const decodedText = atob(base64Text);
-
-      console.log('decodedText', decodedText);
-
-      return decodedText;
-    } catch (error: any) {
-      console.error("Failed to decode Base64: ", error.message);
-      return null;
-    }
-  }
-
-
   function encodeUnicodeToBase64(str: string) {
     try {
       const utf8Encoder = new TextEncoder();
@@ -104,7 +72,7 @@ export const Mermaid = ({ encodeValue }: any) => {
 
   useEffect(() => {
     if (encodeValue) {
-      decodeBase64(encodeValue)
+      encodeUnicodeToBase64(encodeValue)
     }
   }, [encodeValue])
 
@@ -138,7 +106,6 @@ export const Mermaid = ({ encodeValue }: any) => {
           className="mermaid bg-white p-4 rounded-lg shadow w-full"
           dangerouslySetInnerHTML={{ __html: svg }}
         />
-
       )}
       {/* decodedOutput ? decodedOutput : */}
     </div >
