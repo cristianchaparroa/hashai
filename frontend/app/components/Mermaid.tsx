@@ -43,15 +43,15 @@ export const Mermaid = ({ encodeValue }: any) => {
     console.log('encodeValue', encodeValue);
     try {
       let encodedValue: any = encodeValue
-      encodedValue = encodedValue.replace(/\s+/g, '');
+      // encodedValue = encodedValue.replace(/\s+/g, '');
 
-      // // Handle URL-safe encoding
-      encodedValue = encodedValue.replace(/-/g, '+').replace(/_/g, '/');
+      // // // Handle URL-safe encoding
+      // encodedValue = encodedValue.replace(/-/g, '+').replace(/_/g, '/');
 
-      // // Add padding
-      if (encodedValue.length % 4 !== 0) {
-        encodedValue += '='.repeat(4 - (encodedValue.length % 4));
-      }
+      // // // Add padding
+      // if (encodedValue.length % 4 !== 0) {
+      //   encodedValue += '='.repeat(4 - (encodedValue.length % 4));
+      // }
 
       // Decode safely
       // /try {
@@ -61,6 +61,8 @@ export const Mermaid = ({ encodeValue }: any) => {
       // } catch (error: any) {
       //   console.error("Error decoding Base64 string:", error.message);
       // }
+
+      setMermaidInput(decodedValue)
 
       // console.log('decodedStringAtoB', decodedStringAtoB);
     } catch (error) {
@@ -72,7 +74,7 @@ export const Mermaid = ({ encodeValue }: any) => {
 
   useEffect(() => {
     if (encodeValue) {
-      encodeUnicodeToBase64(encodeValue)
+      handleDecode(encodeValue)
     }
   }, [encodeValue])
 
