@@ -21,9 +21,16 @@ export default function TransactionBackground({ children }: TransactionBackgroun
         <div className={styles.innerContainer}>
           {children}
         </div>
-        <button className={styles.transactionModalButton} onClick={() => alert('Transaction reported')}>
+        <button
+          className={styles.transactionModalButton}
+          onClick={() => {
+            alert('Transaction reported');
+            window.location.href = 'converse://home';
+          }}
+        >
           Report transaction
         </button>
+
       </div>
     </div>
   )
