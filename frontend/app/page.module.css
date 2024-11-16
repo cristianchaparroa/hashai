@@ -353,3 +353,16 @@
   display: flex;
   justify-content: space-between;
 }
+
+.title {
+  font-family: 'Poppins', sans-serif; /* Modern and clean font */
+  font-size: 3rem; /* Large and attention-grabbing */
+  font-weight: 700; /* Bold */
+  color: #4A90E2; /* Soft blue */
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  background: linear-gradient(90deg, #4A90E2, #50E3C2); /* Gradient effect */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; /* Makes the gradient visible */
+  text-align: center; /* Center the text */
+  margin: 20px 0; /* Adds spacing */
+}
