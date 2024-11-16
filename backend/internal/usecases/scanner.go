@@ -2,7 +2,6 @@ package usecases
 
 import (
 	"context"
-	"encoding/base64"
 	"fmt"
 	"github.com/puzpuzpuz/xsync/v3"
 	"hashtracker/internal/entities"
@@ -73,11 +72,9 @@ func (s *scanner) GetTransactions(ctx context.Context, address string, level int
 		return true
 	})
 	g := entities.NewSankeyGraph(txs)
-	mermaidB64 := base64.StdEncoding.EncodeToString([]byte(g.ToMermaid()))
-
 	return &entities.TransactionList{
 		List:       txs,
 		Graph:      g,
-		MermaidB64: mermaidB64,
+		MermaidB64: g.ToMermaidURL(),
 	}, nil
 }

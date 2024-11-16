@@ -2,6 +2,7 @@ package entities
 
 import (
 	"fmt"
+	"net/url"
 	"strconv"
 	"strings"
 )
@@ -132,4 +133,25 @@ func (g *Graph) ToMermaid() string {
 	}
 
 	return strings.Join(mermaidLines, "\n")
+}
+
+func (g *Graph) ToMermaidURL() string {
+	mermaidString := g.ToMermaid()
+	// Split the string into lines
+	lines := strings.Split(mermaidString, "\n")
+
+	// Trim whitespace and filter out empty lines
+	var cleanLines []string
+	for _, line := range lines {
+		trimmed := strings.TrimSpace(line)
+		if trimmed != "" {
+			cleanLines = append(cleanLines, trimmed)
+		}
+	}
+
+	// Join the lines with newline characters
+	joined := strings.Join(cleanLines, "\n")
+
+	// URL encode the string
+	return url.QueryEscape(joined)
 }
