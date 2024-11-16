@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import mermaid from 'mermaid'
 import { useParams } from 'next/navigation'
+import styles from '../page.module.css'
 
 export const Mermaid = ({ encodeValue }: any) => {
   // const [mermaidInput, setMermaidInput] = useState(`graph TD
@@ -19,8 +20,6 @@ export const Mermaid = ({ encodeValue }: any) => {
   const [svg, setSvg] = useState('')
   const [error, setError] = useState('')
   const [decodedOutput, setDecodedOutput] = useState('')
-  // console.log('decodedOutput', decodedOutput);
-
 
   function encodeUnicodeToBase64(str: string) {
     try {
@@ -99,15 +98,16 @@ export const Mermaid = ({ encodeValue }: any) => {
   }, [renderMermaid])
 
   return (
-    <div className="container mx-auto p-4">
+    <div className={styles.mermaid}>
       {/* <button onClick={renderMermaid}>Render Diagram</button> */}
       {error && <div className="text-red-500">{error}</div>}
       {svg && (
         <div
-          className="mermaid bg-white p-4 rounded-lg shadow"
-          dangerouslySetInnerHTML={{ __html: decodedOutput ? decodedOutput : svg }}
+          className="mermaid bg-white p-4 rounded-lg shadow w-full"
+          dangerouslySetInnerHTML={{ __html: svg }}
         />
       )}
+      {/* decodedOutput ? decodedOutput : */}
     </div >
   )
 }
