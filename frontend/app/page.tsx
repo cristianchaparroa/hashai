@@ -20,8 +20,9 @@ type HomeProps = {
 };
 
 export default function Home({ searchParams }: HomeProps) {
-  const diagramBase64 = `Z3JhcGggTFIKICAgIDB4ODYxMS4uLjc3ODQtLT58My4yMCBtRVRIfDB4MjUzNS4uLjMwM2IKICAgIDB4ODYxMS4uLjc3ODQtLT58MjAuMDAgbUVUSHwweDAwMDAuLi5iRTU5CiAgICAweERGZDUuLi45NjNkLS0+fDIuMzggbUVUSHwweDg2MTEuLi43Nzg0CiAgICAweDg2MTEuLi43Nzg0LS0+fDEwLjAwIG1FVEh8MHg3Y0NELi4uNURGQQogICAgMHgyOEM2Li4uMWQ2MC0tPnw0Mi43MyBtRVRIfDB4ODYxMS4uLjc3ODQ=`;
-  const decodedHash = decodeBase64(diagramBase64)
+  const diagramBase64 = searchParams.hash;
+  console.error(diagramBase64);
+  const decodedHash = decodeMermaidDiagram(diagramBase64)
 
   console.log('encodeValue', decodedHash);
 
@@ -46,4 +47,9 @@ function decodeBase64(base64String: string): string {
   // Go uses UTF-8 encoding by default
   const decoder = new TextDecoder('utf-8');
   return decoder.decode(bytes);
+}
+
+function decodeMermaidDiagram(encodedString) {
+  // Use built-in decodeURIComponent to decode the URL-encoded string
+  return decodeURIComponent(encodedString);
 }
