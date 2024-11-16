@@ -18,6 +18,10 @@ type ENSRepository interface {
 	Resolve(ctx context.Context, name string) (*entities.ENSResponse, error)
 }
 
+type PolygonRepository interface{
+	Resolve(ctx context.Context) (*entities.PolygonResponse, error)	
+} 
+
 type ScannerUseCase interface {
 	// GetTransactions all transactions on Ethereum main net associated to the specified address
 	GetTransactions(ctx context.Context, address string, level int) (*entities.TransactionList, error)
