@@ -20,21 +20,30 @@ type HomeProps = {
 };
 
 export default function Home({ searchParams }: HomeProps) {
-  // console.log('hash', hash);
-  const flowchartExample = `
-graph TD
-    A[Start] --> B{Is it?}
-    B -- Yes --> C[OK]
-    C --> D[Rethink]
-    D --> B
-    B -- No ----> E[End]
-  `;
+  const diagramBase64 = `Z3JhcGggTFIKICAgIDB4ODYxMS4uLjc3ODQtLT58My4yMCBtRVRIfDB4MjUzNS4uLjMwM2IKICAgIDB4ODYxMS4uLjc3ODQtLT58MjAuMDAgbUVUSHwweDAwMDAuLi5iRTU5CiAgICAweERGZDUuLi45NjNkLS0+fDIuMzggbUVUSHwweDg2MTEuLi43Nzg0CiAgICAweDg2MTEuLi43Nzg0LS0+fDEwLjAwIG1FVEh8MHg3Y0NELi4uNURGQQogICAgMHgyOEM2Li4uMWQ2MC0tPnw0Mi43MyBtRVRIfDB4ODYxMS4uLjc3ODQ=`;
+  const decodedHash = decodeBase64(diagramBase64)
 
-  console.log('encodeValue', flowchartExample);
+  console.log('encodeValue', decodedHash);
 
   return (
     <main className={styles.main}>
-      <MermaidDiagram diagram={flowchartExample} />
+      <MermaidDiagram diagram={decodedHash} />
     </main>
   )
+}
+
+
+function decodeBase64(base64String: string): string {
+  // First, decode the Base64 string to a Uint8Array
+  const binaryString = atob(base64String);
+  const bytes = new Uint8Array(binaryString.length);
+
+  for (let i = 0; i < binaryString.length; i++) {
+    bytes[i] = binaryString.charCodeAt(i);
+  }
+
+  // Convert the Uint8Array to a string using TextDecoder
+  // Go uses UTF-8 encoding by default
+  const decoder = new TextDecoder('utf-8');
+  return decoder.decode(bytes);
 }
