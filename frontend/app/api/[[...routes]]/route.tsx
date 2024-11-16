@@ -1,6 +1,6 @@
 /** @jsxImportSource frog/jsx */
 
-import { Mermaid } from '@/app/components/Mermaid'
+import  MermaidDiagram  from '@/app/components/Mermaid'
 import { SimpleComponent } from '@/app/components/SimpleComponent'
 import { Button, Frog, TextInput } from 'frog'
 import { devtools } from 'frog/dev'

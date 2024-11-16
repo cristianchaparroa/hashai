@@ -2,7 +2,7 @@
 import { getFrameMetadata } from 'frog/web'
 import type { Metadata } from 'next'
 import Image from 'next/image'
-import { Mermaid } from './components/Mermaid'
+import  MermaidDiagram  from './components/Mermaid'
 
 import styles from './page.module.css'
 
@@ -21,13 +21,20 @@ type HomeProps = {
 
 export default function Home({ searchParams }: HomeProps) {
   // console.log('hash', hash);
-  const encodeValue = searchParams.hash; 
+  const flowchartExample = `
+graph TD
+    A[Start] --> B{Is it?}
+    B -- Yes --> C[OK]
+    C --> D[Rethink]
+    D --> B
+    B -- No ----> E[End]
+  `;
 
-  console.log('encodeValue', encodeValue);
-  
+  console.log('encodeValue', flowchartExample);
+
   return (
     <main className={styles.main}>
-      <Mermaid encodeValue={encodeValue} />
+      <MermaidDiagram diagram={flowchartExample} />
     </main>
   )
 }
