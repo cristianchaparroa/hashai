@@ -292,7 +292,7 @@
   border-radius: 0.5rem;
   cursor: pointer;
   transition: background-color 200ms, transform 100ms;
-  background: linear-gradient(90deg, #6366f1, #4f46e5);
+  background: linear-gradient(90deg, #000000, #000000);
   color: #ffffff;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   margin-left: auto;
@@ -305,14 +305,14 @@
 }
 
 .transactionModalButton:hover {
-  background: linear-gradient(90deg, #4f46e5, #4338ca);
+  background: linear-gradient(90deg, #0b0b0c, #101019);
   transform: translateY(-2px);
   box-shadow: 0 6px 10px -1px rgba(0, 0, 0, 0.1), 0 3px 6px -2px rgba(0, 0, 0, 0.06);
 }
 
 .transactionModalButton:active {
   transform: translateY(0);
-  background: linear-gradient(90deg, #4338ca, #3730a3);
+  background: linear-gradient(90deg, #141417, #121217);
 }
 
 .transactionModalButton:disabled {
@@ -358,9 +358,9 @@
   font-family: 'Poppins', sans-serif; /* Modern and clean font */
   font-size: 3rem; /* Large and attention-grabbing */
   font-weight: 700; /* Bold */
-  color: #4A90E2; /* Soft blue */
+  color: #fb4c08; /* Soft blue */
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  background: linear-gradient(90deg, #4A90E2, #50E3C2); /* Gradient effect */
+background: linear-gradient(90deg, #e2874a, #fb4c08); /* Gradient effect */
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent; /* Makes the gradient visible */
   text-align: center; /* Center the text */
