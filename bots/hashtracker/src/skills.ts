@@ -12,7 +12,7 @@ export const skills: SkillGroup[] = [
                 skill: "/report [address]",
                 description: "Report an address as dangerous.",
                 handler: chatHandler,
-                examples: ["/tip 0x1234567890123456789012345678901234567890"],
+                examples: ["/report 0x1234567890123456789012345678901234567890"],
                 params: {
                     address: {
                         type: "string",
