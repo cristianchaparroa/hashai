@@ -81,14 +81,14 @@ GET https://hashtracker-em3r7.ondigitalocean.app/transactions/<ENS>?level=1
 ## Services
 The following are the list of services used.
 
+### Converse Boot
+https://converse.xyz/dm/0x61C9AB5968b49905dE120C699E140044ed77Bd2E
+
 ### Blockscout endpoints
 [/addresses/{address_hash}/transactions](https://eth.blockscout.com/api-docs)
 
 ### Subgraphs
 ENS Resolution: https://api.thegraph.com/subgraphs/name/ensdomains/ens
-
-### Converse Boot
-https://converse.xyz/dm/0x61C9AB5968b49905dE120C699E140044ed77Bd2E
 
 ### Polygon contracts
 We deployed a HashReporter Smart Contract on the Polygon Amoy network. This contract is designed to store reported addresses and emit events, enabling efficient indexing in our subgraph powered by The Graph.
