@@ -13,6 +13,7 @@ export default function TransactionBackground({ children }: TransactionBackgroun
     <div className={styles.container}>
       <div className={styles.dotPattern} />
       <div className={styles.content}>
+<<<<<<< HEAD
 
         <div className={styles.innerContainer}>
           {children}
@@ -33,6 +34,25 @@ export default function TransactionBackground({ children }: TransactionBackgroun
             Report transaction
           </button>
         </div>
+=======
+        <div className="leftAligned">
+          <Link href="converse://home" className={`${styles.transactionModalButton} ${styles.secondary}`}>
+            ← Back
+          </Link>
+        </div>
+        <div className={styles.innerContainer}>
+          {children}
+        </div>
+        <button
+          className={styles.transactionModalButton}
+          onClick={() => {
+            alert('Transaction reported');
+            window.location.href = 'converse://home';
+          }}
+        >
+          Report transaction
+        </button>
+>>>>>>> main
 
       </div>
     </div>
