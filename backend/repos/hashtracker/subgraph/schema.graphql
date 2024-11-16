@@ -1,9 +1,0 @@
-type ReportCreated @entity(immutable: true) {
-  id: Bytes!
-  reportedAddress: Bytes! # address
-  count: BigInt! # uint256
-  category: Int! # uint8
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
