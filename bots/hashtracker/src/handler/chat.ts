@@ -16,7 +16,8 @@ export async function chatHandler(
     if (skill == "transactions") {
         const { address } = params;
         const transactions = await fetchTransactions(address);
-        return { code: 200, message: `The following diagram illustrates the behaviour of ${address} address. ${transactions.mermaid}` };
+        const url = `https://hashtracker.vercel.app/?hash=${transactions.mermaid}`
+        return { code: 200, message: `The following diagram illustrates the ${address} address behaviour. ${url}` };
     }
 
     if (skill == "report") {
