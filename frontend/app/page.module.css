@@ -232,3 +232,118 @@
 .mermaid {
   width: 100%;
 }
+
+.container {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(to bottom right, #f9fafb, #f3f4f6);
+}
+
+.dotPattern {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle at 1rem 1rem, rgba(209, 213, 219, 0.3) 2px, transparent 0);
+  background-size: 2rem 2rem;
+}
+
+.content {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  padding: 1rem;
+}
+
+.innerContainer {
+  width: 100%;
+  height: 100%;
+  border-radius: 0.5rem;
+  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(4px);
+  padding: 1rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+@media (min-width: 640px) {
+  .content {
+    padding: 2rem;
+  }
+
+  .innerContainer {
+    padding: 1.5rem;
+  }
+}
+
+/* Dark mode styles */
+@media (prefers-color-scheme: dark) {
+  .container {
+    background: linear-gradient(to bottom right, #111827, #1f2937);
+  }
+
+  .innerContainer {
+    background-color: rgba(31, 41, 55, 0.5);
+  }
+}
+
+
+.transactionModalButton {
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 200ms, transform 100ms;
+  background: linear-gradient(90deg, #6366f1, #4f46e5);
+  color: #ffffff;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  margin-left: auto; /* Align to the right */
+  display: inline-block; /* Ensure proper alignment */
+  text-align: right;
+  display: flex;
+  margin-top: 10px;
+}
+
+.transactionModalButton:hover {
+  background: linear-gradient(90deg, #4f46e5, #4338ca);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 10px -1px rgba(0, 0, 0, 0.1), 0 3px 6px -2px rgba(0, 0, 0, 0.06);
+}
+
+.transactionModalButton:active {
+  transform: translateY(0);
+  background: linear-gradient(90deg, #4338ca, #3730a3);
+}
+
+.transactionModalButton:disabled {
+  background: #e5e7eb;
+  color: #9ca3af;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.transactionModalButton.primary {
+  background: linear-gradient(90deg, #10b981, #059669);
+}
+
+.transactionModalButton.primary:hover {
+  background: linear-gradient(90deg, #059669, #047857);
+}
+
+.transactionModalButton.secondary {
+  background: linear-gradient(90deg, #f59e0b, #d97706);
+  width: max-content;
+  text-align: left;
+  display: flex;
+  justify-content: start;
+  margin: 0;
+  margin-bottom: 10px;
+}
+
+.transactionModalButton.secondary:hover {
+  background: linear-gradient(90deg, #d97706, #b45309);
+}
+
+.leftAligned {
+  text-align: left; /* Align child elements (like the link) to the left */
+}
