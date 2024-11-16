@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import mermaid from 'mermaid'
 import { useParams } from 'next/navigation'
+import styles from '../page.module.css'
 
 export const Mermaid = ({ encodeValue }: any) => {
   // const [mermaidInput, setMermaidInput] = useState(`graph TD
@@ -19,7 +20,37 @@ export const Mermaid = ({ encodeValue }: any) => {
   const [svg, setSvg] = useState('')
   const [error, setError] = useState('')
   const [decodedOutput, setDecodedOutput] = useState('')
+
+  console.log('decodedOutput', decodedOutput);
+
   // console.log('decodedOutput', decodedOutput);
+
+  function decodeBase64(base64Text: string) {
+    // Check if the input is a string
+    if (typeof base64Text !== 'string') {
+      console.error("Input must be a string.");
+      return null;
+    }
+
+    // Check if the string has a valid Base64 format
+    const base64Regex = /^[A-Za-z0-9+/=]+$/;
+    if (!base64Regex.test(base64Text)) {
+      console.error("Invalid Base64 format.");
+      return null;
+    }
+
+    try {
+      // Decode the Base64 string
+      const decodedText = atob(base64Text);
+
+      console.log('decodedText', decodedText);
+
+      return decodedText;
+    } catch (error: any) {
+      console.error("Failed to decode Base64: ", error.message);
+      return null;
+    }
+  }
 
 
   function encodeUnicodeToBase64(str: string) {
@@ -73,7 +104,7 @@ export const Mermaid = ({ encodeValue }: any) => {
 
   useEffect(() => {
     if (encodeValue) {
-      encodeUnicodeToBase64(encodeValue)
+      decodeBase64(encodeValue)
     }
   }, [encodeValue])
 
@@ -99,15 +130,17 @@ export const Mermaid = ({ encodeValue }: any) => {
   }, [renderMermaid])
 
   return (
-    <div className="container mx-auto p-4">
+    <div className={styles.mermaid}>
       {/* <button onClick={renderMermaid}>Render Diagram</button> */}
       {error && <div className="text-red-500">{error}</div>}
       {svg && (
         <div
-          className="mermaid bg-white p-4 rounded-lg shadow"
-          dangerouslySetInnerHTML={{ __html: decodedOutput ? decodedOutput : svg }}
+          className="mermaid bg-white p-4 rounded-lg shadow w-full"
+          dangerouslySetInnerHTML={{ __html: svg }}
         />
+
       )}
+      {/* decodedOutput ? decodedOutput : */}
     </div >
   )
 }
