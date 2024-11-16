@@ -19,7 +19,8 @@ func (t Transaction) String() string {
 }
 
 type TransactionList struct {
-	List []*Transaction `json:"transactions"`
+	List  []*Transaction `json:"transactions"`
+	Graph *Graph         `json:"graph"`
 }
 
 func NewTransactionList(l []*Transaction) *TransactionList {
