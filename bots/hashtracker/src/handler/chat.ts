@@ -1,4 +1,5 @@
 import {HandlerContext, SkillResponse} from "@xmtp/message-kit";
+import {fetchTransactions} from "../services/transactions.js";
 
 
 export async function chatHandler(
@@ -14,7 +15,8 @@ export async function chatHandler(
 
     if (skill == "transactions") {
         const { address } = params;
-        return { code: 200, message: `Diagram for the address ${address}.` };
+        const transactions = await fetchTransactions(address);
+        return { code: 200, message: `The following diagram illustrates the behaviour of ${address} address. ${transactions.mermaid}` };
     }
 
     if (skill == "report") {
