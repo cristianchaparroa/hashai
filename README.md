@@ -81,7 +81,7 @@ GET https://hashtracker-em3r7.ondigitalocean.app/transactions/<ENS>?level=1
 ## Services
 The following are the list of services used.
 
-### Converse Boot
+### Converse Bot
 https://converse.xyz/dm/0x61C9AB5968b49905dE120C699E140044ed77Bd2E
 
 ### Blockscout endpoints
@@ -89,6 +89,26 @@ https://converse.xyz/dm/0x61C9AB5968b49905dE120C699E140044ed77Bd2E
 
 ### Subgraphs
 ENS Resolution: https://api.thegraph.com/subgraphs/name/ensdomains/ens
+
+#### Creation of a New Subgraph for Indexing Blacklisted Wallets
+We developed a new subgraph to index events emitted by a custom smart contract designed to store user-reported addresses. This contract records addresses associated with scams or malicious activities, as reported by users. Each time an address is reported, the contract emits an event containing the reported address, the category of the issue, and the total number of reports for that address. The subgraph indexes these events, enabling efficient querying and retrieval of blacklisted addresses and their associated data.
+
+Example Query
+You can test the subgraph using the following curl command:
+
+Test prompt
+``` bash
+curl -X POST \
+  -H "Content-Type: application/json" \
+  -d '{"query": "{ reportCreateds(first: 5) { id reportedAddress count category } }", "operationName": "Subgraphs", "variables": {}}' \
+  https://api.studio.thegraph.com/query/95028/blacklisted_addresses_v0/version/latest
+```
+This query fetches the first 5 reportCreated events, including the following details:
+
+- `id`: Unique identifier of the event.
+- `reportedAddress`: The wallet address reported by users.
+- `count`: The number of times the address has been reported.
+- `category`: The type of issue associated with the address (e.g., scam, phishing, fraud).
 
 ### Polygon contracts
 We deployed a HashReporter Smart Contract on the Polygon Amoy network. This contract is designed to store reported addresses and emit events, enabling efficient indexing in our subgraph powered by The Graph.
