@@ -14,7 +14,7 @@ export default function TransactionBackground({ children }: TransactionBackgroun
       <div className={styles.dotPattern} />
       <div className={styles.content}>
         <h1 className={styles.title}>
-          Hash AI
+          HAS# AI
         </h1>
         <div className={styles.innerContainer}>
           {children}
