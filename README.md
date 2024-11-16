@@ -1,5 +1,8 @@
 # HashTracker
 
+## Overview
+
+Hash#AI is a chatbot-based solution that simplifies wallet transaction tracking and makes detecting connections to suspicious or blacklisted addresses easier, safer, and more user-friendly.
 
 ## Local environment
 
@@ -86,6 +89,12 @@ https://converse.xyz/dm/0x61C9AB5968b49905dE120C699E140044ed77Bd2E
 
 ### Blockscout endpoints
 [/addresses/{address_hash}/transactions](https://eth.blockscout.com/api-docs)
+
+### Diagram Transactions visualization
+```
+https://hashtracker.vercel.app/?hash=graph+LR%0A0x3154...2C35--%3E%7C3.36+mETH%7C0xf418...EEEE%0A0x3154...2C35--%3E%7C613.41+%C2%B5ETH%7C0x6632...eeeE%0A0x2535...303b--%3E%7C46.15+mETH%7C0x3154...2C35%0A0x3154...2C35--%3E%7C5.00+mETH%7C0x82E0...Ec8A%0A0x7D1A...eBB0--%3E%7C10.12+mETH%7C0x3154...2C35%0A0x3154...2C35--%3E%7C4.00+mETH%7C0x9Ae7...0a29%0A0xEc56...df66--%3E%7C10.34+mETH%7C0x3154...2C35%0A0x3154...2C35--%3E%7C40.00+mETH%7C0xdAC1...1ec7
+```
+
 
 ### Subgraphs
 ENS Resolution: https://api.thegraph.com/subgraphs/name/ensdomains/ens
