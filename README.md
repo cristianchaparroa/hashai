@@ -124,4 +124,9 @@ We deployed a HashReporter Smart Contract on the Polygon Amoy network. This cont
 You can explore the deployed contract using the Polygon Amoy Explorer at the following URL:
 https://amoy.polygonscan.com/address/0x2651F6e80a4295c59Cbb9260A05db591c988676e
 
-
+## 👨🏻‍💻 Meet the Team
+- [**Cristian Chaparro**](https://github.com/cristianchaparroa)
+- [**Daniel Calderón**](https://github.com/danielcdz)
+- [**Robert Ramirez**](https://github.com/robertram)
+- [**Julio Cesar Arango**](https://www.linkedin.com/in/julio-cesar-bog-eth/)
+- [**Valentina Díaz**](https://www.linkedin.com/in/valentina-diaz-estevez/)
