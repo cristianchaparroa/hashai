@@ -5,6 +5,7 @@ go 1.21.5
 require (
 	github.com/ilyakaznacheev/cleanenv v1.5.0
 	github.com/labstack/echo/v4 v4.12.0
+	github.com/puzpuzpuz/xsync/v3 v3.4.0
 )
 
 require (

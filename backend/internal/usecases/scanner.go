@@ -3,7 +3,9 @@ package usecases
 import (
 	"context"
 	"fmt"
+	"github.com/puzpuzpuz/xsync/v3"
 	"hashtracker/internal/entities"
+	"sync"
 )
 
 type scanner struct {
@@ -44,5 +46,34 @@ func (s *scanner) GetTransactions(ctx context.Context, address string, level int
 	if getErr != nil {
 		return nil, getErr
 	}
-	return transactions, nil
+	m := xsync.NewMapOf[string, *entities.TransactionList]()
+	m.Store(address, transactions)
+
+	var wg sync.WaitGroup
+	for i := 1; i < level; i++ {
+		targets := transactions.GetTargets()
+		for _, addr := range targets {
+			wg.Add(1)
+			go func(wg *sync.WaitGroup, m *xsync.MapOf[string, *entities.TransactionList], address string) {
+				defer wg.Done()
+				ts, getTxErr := s.repo.GetOutTransactions(ctx, address)
+				if getTxErr != nil {
+					return
+				}
+				m.Store(address, ts)
+			}(&wg, m, addr)
+		}
+	}
+	wg.Wait()
+
+	txs := make([]*entities.Transaction, 0)
+	m.Range(func(key string, l *entities.TransactionList) bool {
+		txs = append(txs, l.List...)
+		return true
+	})
+	g := entities.NewSankeyGraph(txs)
+	return &entities.TransactionList{
+		List:  txs,
+		Graph: g,
+	}, nil
 }
