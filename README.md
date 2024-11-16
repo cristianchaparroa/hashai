@@ -87,7 +87,12 @@ The following are the list of services used.
 ### Subgraphs
 ENS Resolution: https://api.thegraph.com/subgraphs/name/ensdomains/ens
 
-### Polygon Amoy
+### Converse Boot
+https://converse.xyz/dm/0x61C9AB5968b49905dE120C699E140044ed77Bd2E
+
+### Polygon contracts
 We deployed a HashReporter Smart Contract on the Polygon Amoy network. This contract is designed to store reported addresses and emit events, enabling efficient indexing in our subgraph powered by The Graph.
 You can explore the deployed contract using the Polygon Amoy Explorer at the following URL:
 https://amoy.polygonscan.com/address/0x2651F6e80a4295c59Cbb9260A05db591c988676e
+
+
