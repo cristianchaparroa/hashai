@@ -18,7 +18,7 @@ run(async (context: HandlerContext) => {
     },
   } = context;
 
-  try {
+  try {{}
     let userPrompt = params?.prompt ?? text;
 
     const { reply } = await textGeneration(
