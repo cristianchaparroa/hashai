@@ -20,7 +20,8 @@ deploy-verify:
 		--private-key $(PRIVATE_KEY) \
 		--etherscan-api-key $(API_KEY) \
 		--verify \
-		"contracts/src/$(contract).sol:$(contract)"
+		"src/$(contract).sol:$(contract)"
 
+# make abi contract=YourContractName
 abi:
-	jq -r .abi ../out/$(contract).sol/$(contract).json > $(contract).abi.json       
+	jq -r .abi ../out/$(contract).sol/$(contract).json > ../backend/abi/$(contract).abi.json

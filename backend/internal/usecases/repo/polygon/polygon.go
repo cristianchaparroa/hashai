@@ -26,7 +26,7 @@ type polygonRepository struct {
 	contractAddress string
 }
 
-func NewPolygonRepository(abiFilePath string, contractAddress string, chainID int64, cfg config.Config) usecases.PolygonRepository {
+func NewPolygonRepository(cfg *config.Config, abiFilePath string, contractAddress string, chainID int64) usecases.PolygonRepository {
 	return &polygonRepository{
 		privateKey:      cfg.PolygonPrivateKey,
 		rpcURL:          cfg.PolygonRpcURl,
@@ -71,7 +71,7 @@ func (p *polygonRepository) CreateReport(ctx context.Context, address string) (*
 
 	// Pack arguments for createReport
 	reportedAddress := common.HexToAddress(address)
-	category := uint8(1) // Example: Phishing
+	category := big.NewInt(1) // Example: Phishing
 	txData, err := parsedABI.Pack("createReport", reportedAddress, category)
 	if err != nil {
 		return nil, fmt.Errorf("failed to pack arguments for createReport: %w", err)
