@@ -5,7 +5,7 @@ import { ReportCreated } from "../generated/HashReporter/HashReporter"
 export function createReportCreatedEvent(
   reportedAddress: Address,
   count: BigInt,
-  category: i32
+  category: BigInt
 ): ReportCreated {
   let reportCreatedEvent = changetype<ReportCreated>(newMockEvent())
 
@@ -23,7 +23,7 @@ export function createReportCreatedEvent(
   reportCreatedEvent.parameters.push(
     new ethereum.EventParam(
       "category",
-      ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(category))
+      ethereum.Value.fromUnsignedBigInt(category)
     )
   )
 
