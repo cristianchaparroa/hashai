@@ -1,5 +1,5 @@
 package entities
 
 type PolygonResponse struct {
-	Tsx string
+	HashTransaction string `json:"transaction_hash"`
 }

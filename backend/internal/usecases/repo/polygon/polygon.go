@@ -35,7 +35,7 @@ func NewPolygonRepository(abiFilePath string, contractAddress string, chainID in
 		contractAddress: contractAddress,
 	}
 }
-func (p *polygonRepository) Resolve(ctx context.Context, address string) (*entities.PolygonResponse, error) {
+func (p *polygonRepository) CreateReport(ctx context.Context, address string) (*entities.PolygonResponse, error) {
 	// Connect to Polygon Mumbai
 	client, err := ethclient.Dial(p.rpcURL)
 	if err != nil {
@@ -121,6 +121,6 @@ func (p *polygonRepository) Resolve(ctx context.Context, address string) (*entit
 	}
 
 	return &entities.PolygonResponse{
-		Tsx: signedTx.Hash().Hex(),
+		HashTransaction: signedTx.Hash().Hex(),
 	}, nil
 }

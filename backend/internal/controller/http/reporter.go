@@ -27,10 +27,10 @@ func (r *ReporterController) ReportAddress(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	response, err := r.rp.Resolve(context.Background(), report.Address)
+	response, err := r.rp.CreateReport(context.Background(), report.Address)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
-	return c.JSON(http.StatusOK, response.Tsx)
+	return c.JSON(http.StatusOK, response)
 }

@@ -19,7 +19,7 @@ type ENSRepository interface {
 }
 
 type PolygonRepository interface {
-	Resolve(ctx context.Context, address string) (*entities.PolygonResponse, error)
+	CreateReport(ctx context.Context, address string) (*entities.PolygonResponse, error)
 }
 
 type ScannerUseCase interface {
