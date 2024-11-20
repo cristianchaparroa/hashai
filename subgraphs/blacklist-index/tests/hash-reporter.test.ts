@@ -21,7 +21,7 @@ describe("Describe entity assertions", () => {
       "0x0000000000000000000000000000000000000001"
     )
     let count = BigInt.fromI32(234)
-    let category = 123
+    let category = BigInt.fromI32(234)
     let newReportCreatedEvent = createReportCreatedEvent(
       reportedAddress,
       count,
@@ -57,7 +57,7 @@ describe("Describe entity assertions", () => {
       "ReportCreated",
       "0xa16081f360e3847006db660bae1c6d1b2e17ec2a-1",
       "category",
-      "123"
+      "234"
     )
 
     // More assert options:

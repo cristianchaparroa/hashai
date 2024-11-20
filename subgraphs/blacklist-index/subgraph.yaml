@@ -8,9 +8,9 @@ dataSources:
     name: HashReporter
     network: polygon-amoy
     source:
-      address: "0x2651F6e80a4295c59Cbb9260A05db591c988676e"
+      address: "0x4672A4bd4F33C059F0039d15d458AD9257C95dFD"
       abi: HashReporter
-      startBlock: 14500600
+      startBlock: 14663107
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -21,6 +21,6 @@ dataSources:
         - name: HashReporter
           file: ./abis/HashReporter.json
       eventHandlers:
-        - event: ReportCreated(indexed address,uint256,uint8)
+        - event: ReportCreated(indexed address,uint256,uint256)
           handler: handleReportCreated
       file: ./src/hash-reporter.ts
