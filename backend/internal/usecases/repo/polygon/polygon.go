@@ -37,7 +37,7 @@ func NewPolygonRepository(cfg *config.Config, abiFilePath string, contractAddres
 	}
 }
 func (p *polygonRepository) CreateReport(ctx context.Context, address string) (*entities.PolygonResponse, error) {
-	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
 	defer cancel()
 
 	client, err := ethclient.DialContext(ctx, p.rpcURL)

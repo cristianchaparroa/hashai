@@ -45,7 +45,6 @@ func (t *transaction) GetTransactions(ctx context.Context, address string) (*ent
 		return nil, fmt.Errorf("API request failed with status code %d: %s", resp.StatusCode, string(body))
 	}
 
-	fmt.Println(string(body))
 	var result TransactionResult
 	err = json.Unmarshal(body, &result)
 	if err != nil {
@@ -61,7 +60,6 @@ func (t *transaction) GetTransactions(ctx context.Context, address string) (*ent
 			To:        r.To.Hash,
 			Timestamp: r.Timestamp,
 		}
-		fmt.Println(tx)
 		txs = append(txs, tx)
 	}
 	return entities.NewTransactionList(txs), nil
