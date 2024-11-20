@@ -1,35 +1,35 @@
-import {chatHandler} from "./handler/chat.js";
+import {reportHandler, transactionsHandler} from "./handler/chat.js";
+import { SkillGroup, SkillParamConfig } from "@xmtp/message-kit";
 
-import type { SkillGroup } from "@xmtp/message-kit";
-
-export const skills: SkillGroup[] = [
+export const transactionSkills:SkillGroup["skills"] =  [
     {
-        name: "Ens Domain Bot",
-        tag: "@ens",
-        description: "Register ENS domains.",
-        skills: [
-            {
-                skill: "/report [address]",
-                description: "Report an address as dangerous.",
-                handler: chatHandler,
-                examples: ["/report 0x1234567890123456789012345678901234567890"],
-                params: {
-                    address: {
-                        type: "string",
-                    },
-                },
-            },
-            {
-                skill: "/transactions [address]",
-                description: "Show the transactions of a specific address.",
-                handler: chatHandler,
-                examples: ["/transactions 0x1234567890123456789012345678901234567890"],
-                params: {
-                    address: {
-                        type: "string",
-                    },
-                },
-            },
+        skill: "/report [addres]",
+        handler: reportHandler,
+        examples:  [
+            "/report 0x1234567890123456789012345678901234567890",
+            "/report vitalik.eth",
         ],
+        description: "Report an address as dangerous.",
+        params: {
+            address: {
+                type: "string",
+            } as SkillParamConfig,
+        },
+    },
+
+    {
+        skill: "/transactions [address]",
+        handler: transactionsHandler,
+        examples: [
+            "/transactions vitalik.eth",
+            "/transactions fabri.base.eth",
+            "transactions0x1234567890123456789012345678901234567890"
+        ],
+        description: "Show the transactions of a specific address",
+        params: {
+            address: {
+                type: "string",
+            } as SkillParamConfig,
+        },
     },
 ];
