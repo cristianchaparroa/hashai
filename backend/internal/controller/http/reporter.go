@@ -2,6 +2,8 @@ package http
 
 import (
 	"context"
+	"fmt"
+	"hashtracker/internal/entities"
 	"hashtracker/internal/usecases"
 	"net/http"
 
@@ -19,10 +21,16 @@ func NewReporterController(rp usecases.PolygonRepository) *ReporterController {
 }
 
 func (r *ReporterController) ReportAddress(c echo.Context) error {
-	response, err := r.rp.Resolve(context.Background())
+	report, err := entities.NewReportRequest(c)
+	if err != nil {
+		fmt.Println(err)
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	}
+
+	response, err := r.rp.CreateReport(context.Background(), report.Address)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
-	return c.JSON(http.StatusOK, response.Tsx)
+	return c.JSON(http.StatusOK, response)
 }
