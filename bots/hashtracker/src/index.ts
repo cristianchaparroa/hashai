@@ -1,35 +1,26 @@
 import {
   run,
-  HandlerContext,
-  textGeneration,
-  processMultilineResponse, AbstractedMember,
+  XMTPContext,
+  agentReply,
+  replaceVariables,
 } from "@xmtp/message-kit";
-import { agent_prompt } from "./prompt.js";
+import { skills } from "./skills.js";
+import { systemPrompt } from "./prompt.js";
 
-if (!process.env.OPEN_AI_API_KEY) {
-  console.error("OPEN_AI_API_KEY is not set");
-}
+run(
+    async (context: XMTPContext) => {
+      const {
+        message: { sender },
+        runConfig,
+      } = context;
 
-run(async (context: HandlerContext) => {
-  const {
-    message: {
-      content: { text, params },
-      sender,
+      let prompt = await replaceVariables(
+          systemPrompt,
+          sender.address,
+          runConfig?.skills,
+          "@bot",
+      );
+      await agentReply(context, prompt);
     },
-  } = context;
-
-  try {
-    let userPrompt = params?.prompt ?? text;
-
-    const { reply } = await textGeneration(
-        sender.address,
-        userPrompt,
-        await agent_prompt(sender.address),
-    );
-    await processMultilineResponse(sender.address, reply, context);
-  } catch (error) {
-    console.error("Error during OpenAI call:", error);
-    await context.send("An error occurred while processing your request.");
-  }
-});
-
+    { skills },
+);

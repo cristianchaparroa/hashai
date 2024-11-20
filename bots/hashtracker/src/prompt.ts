@@ -1,9 +1,4 @@
-import { skills } from "./skills.js";
-import { defaultPromptTemplate } from "@xmtp/message-kit";
-
-
-export async function agent_prompt(senderAddress: string) {
-  let fineTuning = `
+export const systemPrompt =  `
 ## Example responses:
  
 1. Check the transactions of the wallet address
@@ -13,5 +8,3 @@ export async function agent_prompt(senderAddress: string) {
   Hello  {PREFERRED_NAME} the report for the {ADDRESS} address has been completed.
 `;
 
-  return defaultPromptTemplate(fineTuning, senderAddress, skills, "@ens");
-}

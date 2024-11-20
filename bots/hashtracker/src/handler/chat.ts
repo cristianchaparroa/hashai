@@ -1,9 +1,9 @@
-import {HandlerContext, SkillResponse} from "@xmtp/message-kit";
+import {XMTPContext, SkillResponse} from "@xmtp/message-kit";
 import {fetchTransactions} from "../services/transactions.js";
 
 
 export async function chatHandler(
-    context: HandlerContext,
+    context: XMTPContext,
 ): Promise<SkillResponse | undefined> {
     const {
         message: {
