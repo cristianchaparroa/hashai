@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc --noEmitOnError --incremental false",
     "dev": "tsc -w & sleep 1 && node --watch dist/index.js",
     "start": "node dist/index.js",
     "postinstall": "tsc"
@@ -13,5 +13,8 @@
   },
   "engines": {
     "node": ">=20"
+  },
+  "devDependencies": {
+    "pino-pretty": "^13.0.0"
   }
 }
