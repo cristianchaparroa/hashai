@@ -3,9 +3,10 @@ package usecases
 import (
 	"context"
 	"fmt"
-	"github.com/puzpuzpuz/xsync/v3"
 	"hashtracker/internal/entities"
 	"sync"
+
+	"github.com/puzpuzpuz/xsync/v3"
 )
 
 type scanner struct {
