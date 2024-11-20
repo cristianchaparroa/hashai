@@ -10,8 +10,8 @@
       },
       {
         "name": "_category",
-        "type": "uint8",
-        "internalType": "enum HashReporter.Category"
+        "type": "uint256",
+        "internalType": "uint256"
       }
     ],
     "outputs": [],
@@ -23,8 +23,8 @@
     "inputs": [
       {
         "name": "_category",
-        "type": "uint8",
-        "internalType": "enum HashReporter.Category"
+        "type": "uint256",
+        "internalType": "uint256"
       }
     ],
     "outputs": [
@@ -38,42 +38,6 @@
   },
   {
     "type": "function",
-    "name": "getReport",
-    "inputs": [
-      {
-        "name": "index",
-        "type": "uint256",
-        "internalType": "uint256"
-      }
-    ],
-    "outputs": [
-      {
-        "name": "",
-        "type": "tuple",
-        "internalType": "struct HashReporter.Report",
-        "components": [
-          {
-            "name": "reportedAddress",
-            "type": "address",
-            "internalType": "address"
-          },
-          {
-            "name": "count",
-            "type": "uint256",
-            "internalType": "uint256"
-          },
-          {
-            "name": "category",
-            "type": "uint8",
-            "internalType": "enum HashReporter.Category"
-          }
-        ]
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
     "name": "getReportByAddress",
     "inputs": [
       {
@@ -84,74 +48,14 @@
     ],
     "outputs": [
       {
-        "name": "",
-        "type": "tuple",
-        "internalType": "struct HashReporter.Report",
-        "components": [
-          {
-            "name": "reportedAddress",
-            "type": "address",
-            "internalType": "address"
-          },
-          {
-            "name": "count",
-            "type": "uint256",
-            "internalType": "uint256"
-          },
-          {
-            "name": "category",
-            "type": "uint8",
-            "internalType": "enum HashReporter.Category"
-          }
-        ]
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
-    "name": "reportIndex",
-    "inputs": [
-      {
-        "name": "",
-        "type": "address",
-        "internalType": "address"
-      }
-    ],
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint256",
-        "internalType": "uint256"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
-    "name": "reports",
-    "inputs": [
-      {
-        "name": "",
-        "type": "uint256",
-        "internalType": "uint256"
-      }
-    ],
-    "outputs": [
-      {
-        "name": "reportedAddress",
-        "type": "address",
-        "internalType": "address"
-      },
-      {
         "name": "count",
         "type": "uint256",
         "internalType": "uint256"
       },
       {
         "name": "category",
-        "type": "uint8",
-        "internalType": "enum HashReporter.Category"
+        "type": "uint256",
+        "internalType": "uint256"
       }
     ],
     "stateMutability": "view"
@@ -174,11 +78,16 @@
       },
       {
         "name": "category",
-        "type": "uint8",
+        "type": "uint256",
         "indexed": false,
-        "internalType": "enum HashReporter.Category"
+        "internalType": "uint256"
       }
     ],
     "anonymous": false
+  },
+  {
+    "type": "error",
+    "name": "NoReportFound",
+    "inputs": []
   }
 ]

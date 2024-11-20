@@ -23,12 +23,13 @@ func NewReporterController(rp usecases.PolygonRepository) *ReporterController {
 func (r *ReporterController) ReportAddress(c echo.Context) error {
 	report, err := entities.NewReportRequest(c)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("--> error request: ", err)
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
 	response, err := r.rp.CreateReport(context.Background(), report.Address)
 	if err != nil {
+		fmt.Println("--> error create report: ", err)
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
