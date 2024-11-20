@@ -1,26 +1,38 @@
 import {
-  run,
-  XMTPContext,
-  agentReply,
-  replaceVariables,
+    run,
+    XMTPContext,
+    agentReply,
+    replaceVariables, SkillGroup,
 } from "@xmtp/message-kit";
-import { skills } from "./skills.js";
+import { transactionSkills} from "./skills.js";
 import { systemPrompt } from "./prompt.js";
 
-run(
-    async (context: XMTPContext) => {
-      const {
-        message: { sender },
-        runConfig,
-      } = context;
 
-      let prompt = await replaceVariables(
-          systemPrompt,
-          sender.address,
-          runConfig?.skills,
-          "@bot",
-      );
-      await agentReply(context, prompt);
+export const skills = [
+    {
+        name: "Transactional tracking Bot",
+        tag: "@hashi",
+        description: "Transactional tracking Bot",
+        skills: [
+            ...transactionSkills,
+        ],
+    },
+];
+
+run(
+    async (context:XMTPContext) => {
+        const {
+            message: { sender },
+            runConfig,
+        } = context;
+
+        let prompt = await replaceVariables(
+            systemPrompt,
+            sender.address,
+            runConfig?.skills,
+            "@hashi",
+        );
+        await agentReply(context, prompt);
     },
     { skills },
 );

@@ -9,7 +9,8 @@
     "postinstall": "tsc"
   },
   "dependencies": {
-    "@xmtp/message-kit": "latest"
+    "@xmtp/message-kit": "latest",
+    "shaveurl": "^1.1.7"
   },
   "engines": {
     "node": ">=20"
