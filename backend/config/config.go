@@ -7,8 +7,8 @@ import (
 )
 
 type Config struct {
-	TheGraphApiKey string `env:"THE_GRAPH_API_KEY"`
-	PolygonRpcURl string `env:"RPC_URL"`
+	TheGraphApiKey    string `env:"THE_GRAPH_API_KEY"`
+	PolygonRpcURl     string `env:"RPC_URL"`
 	PolygonPrivateKey string `env:"PRIVATE_KEY"`
 }
 

@@ -9,6 +9,7 @@ import (
 	"math/big"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
@@ -36,8 +37,10 @@ func NewPolygonRepository(cfg *config.Config, abiFilePath string, contractAddres
 	}
 }
 func (p *polygonRepository) CreateReport(ctx context.Context, address string) (*entities.PolygonResponse, error) {
-	// Connect to Polygon Mumbai
-	client, err := ethclient.Dial(p.rpcURL)
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	defer cancel()
+
+	client, err := ethclient.DialContext(ctx, p.rpcURL)
 	if err != nil {
 		return nil, fmt.Errorf("failed to connect to Polygon node: %w", err)
 	}
