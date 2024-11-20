@@ -1,7 +1,7 @@
 import {XMTPContext, SkillResponse, getUserInfo} from "@xmtp/message-kit";
 import {fetchTransactions} from "../services/transactions.js";
 import { shortenUrl } from 'shaveurl';
-
+import {createReport} from "../services/reports.js";
 
 export async function transactionsHandler(context: XMTPContext): Promise<SkillResponse | undefined> {
     const {
@@ -29,5 +29,8 @@ export async function reportHandler(context: XMTPContext): Promise<SkillResponse
             },
         },
     } = context;
+
+    const result = await createReport(address);
+    console.log("---> transaction result:", result);
     return { code: 200, message: `${address} reported...` };
 }

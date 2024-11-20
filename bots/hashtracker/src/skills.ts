@@ -1,4 +1,4 @@
-import {reportHandler, transactionsHandler} from "./handler/chat.js";
+import {reportHandler, transactionsHandler} from "./handler/handler.js";
 import { SkillGroup, SkillParamConfig } from "@xmtp/message-kit";
 
 export const transactionSkills:SkillGroup["skills"] =  [
