@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@xmtp/message-kit": "latest",
+    "graphql-request": "^7.1.2",
     "shaveurl": "^1.1.7"
   },
   "engines": {
