@@ -1,4 +1,4 @@
-import {reportHandler, transactionsHandler} from "./handler/handler.js";
+import {getBlacklistHandler, reportHandler, transactionsHandler} from "./handler/handler.js";
 import { SkillGroup, SkillParamConfig } from "@xmtp/message-kit";
 
 export const transactionSkills:SkillGroup["skills"] =  [
@@ -23,9 +23,25 @@ export const transactionSkills:SkillGroup["skills"] =  [
         examples: [
             "/transactions vitalik.eth",
             "/transactions fabri.base.eth",
-            "transactions0x1234567890123456789012345678901234567890"
+            "/transactions 0x1234567890123456789012345678901234567890"
         ],
         description: "Show the transactions of a specific address",
+        params: {
+            address: {
+                type: "string",
+            } as SkillParamConfig,
+        },
+    },
+
+    {
+        skill: "/blacklist [address]",
+        handler: getBlacklistHandler,
+        examples: [
+            "/blacklist vitalik.eth",
+            "/blacklist fabri.base.eth",
+            "/blacklist 0x1234567890123456789012345678901234567890"
+        ],
+        description: "Verify if an address has been blacklisted",
         params: {
             address: {
                 type: "string",
