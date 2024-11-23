@@ -24,4 +24,4 @@ deploy-verify:
 
 # make abi contract=YourContractName
 abi:
-	jq -r .abi ../out/$(contract).sol/$(contract).json > ../backend/abi/$(contract).abi.json
+	forge inspect $(contract) abi > ../backend/abi/$(contract).abi.json

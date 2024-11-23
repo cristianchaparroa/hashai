@@ -32,7 +32,7 @@ func Run() {
 	)
 	scannerController := http.NewScannerController(scannerUseCase)
 
-	polygonRepo := polygon.NewPolygonRepository(cfg, "abi/HashReporter.abi.json", "0x4672A4bd4F33C059F0039d15d458AD9257C95dFD", 80002)
+	polygonRepo := polygon.NewPolygonRepository(cfg, "abi/HashReporter.abi.json", "0x80576beE4463CE226a9259CF1E5815d3Be8D209F", 80002)
 	reporterController := http.NewReporterController(polygonRepo)
 
 	s := echo.New()

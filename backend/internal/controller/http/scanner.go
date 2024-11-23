@@ -2,7 +2,7 @@ package http
 
 import (
 	"context"
-	"hashtracker/internal/entities"
+	"hashtracker/internal/entities/blockscout"
 	"hashtracker/internal/usecases"
 	"net/http"
 
@@ -20,7 +20,7 @@ func NewScannerController(uc usecases.ScannerUseCase) *ScannerController {
 }
 
 func (s *ScannerController) GetTransactions(c echo.Context) error {
-	r, err := entities.NewTransactionRequest(c)
+	r, err := blockscout.NewTransactionRequest(c)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}

@@ -3,51 +3,63 @@ pragma solidity ^0.8.28;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 
+contract HashReporter is Ownable {
     error NoReportFound();
     error InvalidCategory();
 
-contract HashReporter is Ownable {
     struct Report {
-        uint256 count;
-        uint256 category;
+        uint256 count;      // number of cases reported for the same wallet
+        uint256 category;   // category of the report, i.e: scam, phishing, etc..
+        uint256 date;       // Date when was reported the address
+        string comments;    // Comments related to the report.
+        string source;      // Data source, i.e: etherescan, blockscout, an user;
         bool exists;
     }
 
     mapping(address => Report) private reports;
-    event ReportCreated(address indexed reportedAddress, uint256 count, uint256 category);
+    event ReportCreated(
+        address indexed reportedAddress,
+        uint256 count,
+        uint256 category,
+        uint256 date,
+        string comments,
+        string source
+    );
 
     constructor() Ownable(msg.sender) {}
 
-    function createReport(address _reportedAddress, uint256 _category) external onlyOwner {
+    function createReport(
+        address _reportedAddress,
+        uint256 _category,
+        string calldata _comments,
+        string calldata _source,
+        uint256 _date
+    ) external onlyOwner {
         Report storage report = reports[_reportedAddress];
+
         if (!report.exists) {
-            reports[_reportedAddress] = Report({
-                count: 1,
-                category: _category,
-                exists: true
-            });
-            emit ReportCreated(_reportedAddress, 1, _category);
+            report.count = 1;
+            report.category = _category;
+            report.comments = _comments;
+            report.source = _source;
+            report.date = _date;
+            report.exists = true;
+
+            emit ReportCreated(_reportedAddress, report.count, _category, _date, _comments, _source);
             return;
         }
 
-        report.count++;
+        unchecked {
+            report.count++;  // Use unchecked since overflow is highly unlikely
+        }
         report.category = _category;
-        emit ReportCreated(_reportedAddress, report.count, _category);
+        emit ReportCreated(_reportedAddress, report.count, _category, _date, _comments, _source);
     }
 
     function getReportByAddress(address _reportedAddress) external view returns (uint256 count, uint256 category) {
         Report storage report = reports[_reportedAddress];
         if(!report.exists) revert NoReportFound();
         return (report.count, report.category);
-    }
-
-    function getCategoryString(uint256 _category) external pure returns (string memory) {
-        if (_category == 0) return "Scam";
-        else if (_category == 1) return "Phishing";
-        else if (_category == 2) return "Malware";
-        else if (_category == 3) return "Fraud";
-        else if (_category == 4) return "Other";
-        return "";
     }
 
     // Function to transfer ownership

@@ -5,7 +5,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"hashtracker/internal/entities"
+	"hashtracker/internal/entities/thegraph"
 	"hashtracker/internal/usecases"
 	"io"
 	"net/http"
@@ -55,7 +55,7 @@ func NewENSRepository(apiKey string) usecases.ENSRepository {
 	}
 }
 
-func (e *ensRepository) Resolve(ctx context.Context, ensName string) (*entities.ENSResponse, error) {
+func (e *ensRepository) Resolve(ctx context.Context, ensName string) (*thegraph.ENSResponse, error) {
 	// Construct the URL with the API key
 	endpoint := fmt.Sprintf("https://api.thegraph.com/subgraphs/name/ensdomains/ens")
 
@@ -108,7 +108,7 @@ func (e *ensRepository) Resolve(ctx context.Context, ensName string) (*entities.
 		return nil, fmt.Errorf("there is no record for the ENS: %s", ensName)
 	}
 
-	return &entities.ENSResponse{
+	return &thegraph.ENSResponse{
 		Address: response.Data.Domains[0].ResolvedAddress.ID,
 	}, nil
 }
