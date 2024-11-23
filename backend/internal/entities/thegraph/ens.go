@@ -1,4 +1,4 @@
-package entities
+package thegraph
 
 type ENSResponse struct {
 	Address string

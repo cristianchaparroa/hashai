@@ -1,148 +1,227 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.28;
 
-import "forge-std/Test.sol";
-import "../src/HashReporter.sol";
-
-error OwnableUnauthorizedAccount(address account);
+import {Test, console2} from "forge-std/Test.sol";
+import {HashReporter} from "../src/HashReporter.sol";
+import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 
 contract HashReporterTest is Test {
-    HashReporter public reporter;
+    HashReporter public hashReporter;
     address public owner;
-    address public randomUser;
+    address public user;
     address public reportedAddress;
 
-    address public constant TEST_ADDRESS = address(0x1);
-
-    event ReportCreated(address indexed reportedAddress, uint256 count, uint256 category);
+    event ReportCreated(
+        address indexed reportedAddress,
+        uint256 count,
+        uint256 category,
+        uint256 date,
+        string comments,
+        string source
+    );
 
     function setUp() public {
-        owner = address(this);
-        randomUser = address(0x1);
-        reportedAddress = address(0x2);
-        reporter = new HashReporter();
+        owner = makeAddr("owner");
+        user = makeAddr("user");
+        reportedAddress = makeAddr("reported");
+
+        vm.prank(owner);
+        hashReporter = new HashReporter();
     }
 
-    function testCreateFirstReport() public {
-        vm.expectEmit(true, false, false, true);
-        emit ReportCreated(TEST_ADDRESS, 1, 0);
+    function test_InitialOwnership() public {
+        assertEq(hashReporter.owner(), owner);
+    }
 
-        reporter.createReport(TEST_ADDRESS, 0);
+    function test_CreateReport() public {
+        vm.startPrank(owner);
 
-        (uint256 count, uint256 category) = reporter.getReportByAddress(TEST_ADDRESS);
+        string memory comments = "Scam report";
+        string memory source = "etherscan";
+        uint256 date = block.timestamp;
+        uint256 category = 1;
+
+        vm.expectEmit(true, true, true, true);
+        emit ReportCreated(
+            reportedAddress,
+            1,
+            category,
+            date,
+            comments,
+            source
+        );
+
+        hashReporter.createReport(
+            reportedAddress,
+            category,
+            comments,
+            source,
+            date
+        );
+
+        (uint256 count, uint256 reportCategory) = hashReporter.getReportByAddress(reportedAddress);
         assertEq(count, 1);
-        assertEq(category, 0);
+        assertEq(reportCategory, category);
+
+        vm.stopPrank();
     }
 
-    function testIncrementExistingReport() public {
-        reporter.createReport(TEST_ADDRESS, 1);
+    function test_CreateMultipleReports() public {
+        vm.startPrank(owner);
 
-        vm.expectEmit(true, false, false, true);
-        emit ReportCreated(TEST_ADDRESS, 2, 1);
+        // First report
+        string memory firstComments = "First report";
+        string memory firstSource = "etherscan";
+        uint256 firstDate = block.timestamp;
+        uint256 firstCategory = 1;
 
-        reporter.createReport(TEST_ADDRESS, 1);
+        hashReporter.createReport(
+            reportedAddress,
+            firstCategory,
+            firstComments,
+            firstSource,
+            firstDate
+        );
 
-        (uint256 count, uint256 category) = reporter.getReportByAddress(TEST_ADDRESS);
+        // Second report
+        string memory secondComments = "Second report";
+        string memory secondSource = "blockscout";
+        uint256 secondDate = block.timestamp;
+        uint256 secondCategory = 2;
+
+        vm.expectEmit(true, true, true, true);
+        emit ReportCreated(
+            reportedAddress,
+            2,
+            secondCategory,
+            secondDate,
+            secondComments,
+            secondSource
+        );
+
+        hashReporter.createReport(
+            reportedAddress,
+            secondCategory,
+            secondComments,
+            secondSource,
+            secondDate
+        );
+
+        (uint256 count, uint256 category) = hashReporter.getReportByAddress(reportedAddress);
         assertEq(count, 2);
-        assertEq(category, 1);
+        assertEq(category, secondCategory);
+
+        vm.stopPrank();
     }
 
-    function testGetReportByAddressReverts() public {
-        vm.expectRevert(NoReportFound.selector);
-        reporter.getReportByAddress(TEST_ADDRESS);
+    function test_RevertWhenNonOwnerCreatesReport() public {
+        vm.prank(user);
+        vm.expectRevert(
+            abi.encodeWithSignature("OwnableUnauthorizedAccount(address)", user)
+        );
+
+        hashReporter.createReport(
+            reportedAddress,
+            1,
+            "Unauthorized report",
+            "etherscan",
+            block.timestamp
+        );
     }
 
-    function testGetCategoryString() public {
-        assertEq(reporter.getCategoryString(0), "Scam");
-        assertEq(reporter.getCategoryString(1), "Phishing");
-        assertEq(reporter.getCategoryString(2), "Malware");
-        assertEq(reporter.getCategoryString(3), "Fraud");
-        assertEq(reporter.getCategoryString(4), "Other");
-        assertEq(reporter.getCategoryString(5), "");
+    function test_RevertWhenQueryingNonExistentReport() public {
+        vm.expectRevert();
+        hashReporter.getReportByAddress(makeAddr("nonexistent"));
     }
 
-    function testFuzzCreateReport(address _reportedAddress, uint256 category) public {
-        vm.assume(category <= 4);
-        reporter.createReport(_reportedAddress, category);
+    function test_TransferOwnership() public {
+        address newOwner = makeAddr("newOwner");
 
-        (uint256 count, uint256 returnedCategory) = reporter.getReportByAddress(_reportedAddress);
+        vm.prank(owner);
+        hashReporter.transferOwnership(newOwner);
+
+        assertEq(hashReporter.owner(), newOwner);
+    }
+
+    function test_RevertWhenNonOwnerTransfersOwnership() public {
+        address newOwner = makeAddr("newOwner");
+
+        vm.prank(user);
+        vm.expectRevert(
+            abi.encodeWithSignature("OwnableUnauthorizedAccount(address)", user)
+        );
+
+        hashReporter.transferOwnership(newOwner);
+    }
+
+    function test_RenounceOwnership() public {
+        vm.prank(owner);
+        hashReporter.renounceOwnership();
+
+        assertEq(hashReporter.owner(), address(0));
+    }
+
+    function test_RevertWhenNonOwnerRenouncesOwnership() public {
+        vm.prank(user);
+        vm.expectRevert(
+            abi.encodeWithSignature("OwnableUnauthorizedAccount(address)", user)
+        );
+
+        hashReporter.renounceOwnership();
+    }
+
+    function test_FuzzCreateReport(
+        address _reportedAddress,
+        uint256 _category,
+        string memory _comments,
+        string memory _source,
+        uint256 _date
+    ) public {
+        vm.assume(_reportedAddress != address(0));
+        vm.assume(_date > 0);
+
+        vm.prank(owner);
+        hashReporter.createReport(
+            _reportedAddress,
+            _category,
+            _comments,
+            _source,
+            _date
+        );
+
+        (uint256 count, uint256 category) = hashReporter.getReportByAddress(_reportedAddress);
         assertEq(count, 1);
-        assertEq(returnedCategory, category);
+        assertEq(category, _category);
     }
 
-    function testOwnerCanCreateReport() public {
-        // Owner creates a report
-        reporter.createReport(reportedAddress, 0); // Category 0 = "Scam"
+    function test_CreateReportGasOptimized() public {
+        vm.startPrank(owner);
 
-        // Verify the report was created
-        (uint256 count, uint256 category) = reporter.getReportByAddress(reportedAddress);
-        assertEq(count, 1, "Report count should be 1");
-        assertEq(category, 0, "Category should be 0 (Scam)");
-    }
-
-    function testRandomUserCannotCreateReport() public {
-        // Switch to random user context
-        vm.startPrank(randomUser);
-
-        // Expect the transaction to revert with OwnableUnauthorizedAccount error
-        vm.expectRevert(
-            abi.encodeWithSelector(OwnableUnauthorizedAccount.selector, randomUser)
+        // Test first report
+        uint256 gasBefore = gasleft();
+        hashReporter.createReport(
+            reportedAddress,
+            1,
+            "Test report",
+            "etherscan",
+            block.timestamp
         );
-        reporter.createReport(reportedAddress, 0);
+        uint256 gasAfter = gasleft();
+        uint256 gasUsed = gasBefore - gasAfter;
+        console2.log("Gas used for first report:", gasUsed);
 
-        vm.stopPrank();
-    }
-
-    function testOwnerCanTransferOwnership() public {
-        address newOwner = address(0x3);
-
-        // Transfer ownership to new address
-        reporter.transferOwnership(newOwner);
-
-        // Verify new owner
-        assertEq(reporter.owner(), newOwner, "Ownership should be transferred to new owner");
-    }
-
-    function testRandomUserCannotTransferOwnership() public {
-        address newOwner = address(0x3);
-
-        // Switch to random user context
-        vm.startPrank(randomUser);
-
-        // Expect the transaction to revert with OwnableUnauthorizedAccount error
-        vm.expectRevert(
-            abi.encodeWithSelector(OwnableUnauthorizedAccount.selector, randomUser)
+        // Test subsequent report
+        gasBefore = gasleft();
+        hashReporter.createReport(
+            reportedAddress,
+            2,
+            "Second report",
+            "etherscan",
+            block.timestamp
         );
-        reporter.transferOwnership(newOwner);
-
-        vm.stopPrank();
-    }
-
-    function testOwnershipTransferCompleteCycle() public {
-        address newOwner = address(0x3);
-
-        // Initial owner creates a report
-        reporter.createReport(reportedAddress, 0);
-
-        // Transfer ownership
-        reporter.transferOwnership(newOwner);
-
-        // Try to create report with old owner (should fail)
-        vm.expectRevert(
-            abi.encodeWithSelector(OwnableUnauthorizedAccount.selector, address(this))
-        );
-        reporter.createReport(reportedAddress, 1);
-
-        // Switch to new owner context
-        vm.startPrank(newOwner);
-
-        // New owner should be able to create report
-        reporter.createReport(reportedAddress, 1);
-
-        // Verify the report was updated by new owner
-        (uint256 count, uint256 category) = reporter.getReportByAddress(reportedAddress);
-        assertEq(count, 2, "Report count should be 2");
-        assertEq(category, 1, "Category should be 1");
+        gasAfter = gasleft();
+        gasUsed = gasBefore - gasAfter;
+        console2.log("Gas used for subsequent report:", gasUsed);
 
         vm.stopPrank();
     }

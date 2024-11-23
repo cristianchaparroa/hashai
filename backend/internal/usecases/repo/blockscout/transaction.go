@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"hashtracker/internal/entities"
+	"hashtracker/internal/entities/blockscout"
 	"hashtracker/internal/usecases"
 	"io/ioutil"
 	"net/http"
@@ -22,7 +22,7 @@ func NewTransactionRepository() usecases.ETHTransactionRepository {
 	return &transaction{}
 }
 
-func (t *transaction) GetTransactions(ctx context.Context, address string) (*entities.TransactionList, error) {
+func (t *transaction) GetTransactions(ctx context.Context, address string) (*blockscout.TransactionList, error) {
 	endpoint := fmt.Sprintf("/addresses/%s/transactions", address)
 	params := url.Values{}
 	params.Add("sort", "desc")
@@ -51,9 +51,9 @@ func (t *transaction) GetTransactions(ctx context.Context, address string) (*ent
 		return nil, fmt.Errorf("error parsing JSON response: %v", err)
 	}
 
-	var txs []*entities.Transaction
+	var txs []*blockscout.Transaction
 	for _, r := range result.Items {
-		tx := &entities.Transaction{
+		tx := &blockscout.Transaction{
 			Hash:      r.Hash,
 			Value:     r.Value,
 			From:      r.From.Hash,
@@ -62,21 +62,21 @@ func (t *transaction) GetTransactions(ctx context.Context, address string) (*ent
 		}
 		txs = append(txs, tx)
 	}
-	return entities.NewTransactionList(txs), nil
+	return blockscout.NewTransactionList(txs), nil
 }
 
-func (t *transaction) GetOutTransactions(ctx context.Context, address string) (*entities.TransactionList, error) {
+func (t *transaction) GetOutTransactions(ctx context.Context, address string) (*blockscout.TransactionList, error) {
 	txs, err := t.GetTransactions(ctx, address)
 	if err != nil {
 		return nil, err
 	}
 
-	results := make([]*entities.Transaction, 0)
+	results := make([]*blockscout.Transaction, 0)
 	for _, tx := range txs.List {
 		if tx.To == address {
 			continue
 		}
 		results = append(results, tx)
 	}
-	return entities.NewTransactionList(results), nil
+	return blockscout.NewTransactionList(results), nil
 }

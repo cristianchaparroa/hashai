@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"hashtracker/config"
-	"hashtracker/internal/entities"
+	"hashtracker/internal/entities/polygon"
 	"hashtracker/internal/usecases"
 	"math/big"
 	"os"
@@ -36,7 +36,7 @@ func NewPolygonRepository(cfg *config.Config, abiFilePath string, contractAddres
 		contractAddress: contractAddress,
 	}
 }
-func (p *polygonRepository) CreateReport(ctx context.Context, address string) (*entities.PolygonResponse, error) {
+func (p *polygonRepository) CreateReport(ctx context.Context, req *polygon.ReportRequest) (*polygon.PolygonResponse, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
 	defer cancel()
 
@@ -73,9 +73,16 @@ func (p *polygonRepository) CreateReport(ctx context.Context, address string) (*
 	}
 
 	// Pack arguments for createReport
-	reportedAddress := common.HexToAddress(address)
+	reportedAddress := common.HexToAddress(req.Address)
 	category := big.NewInt(1) // Example: Phishing
-	txData, err := parsedABI.Pack("createReport", reportedAddress, category)
+
+	txData, err := parsedABI.Pack("createReport",
+		reportedAddress,
+		category,
+		req.Comments,
+		req.Source,
+		req.Date,
+	)
 	if err != nil {
 		return nil, fmt.Errorf("failed to pack arguments for createReport: %w", err)
 	}
@@ -123,7 +130,7 @@ func (p *polygonRepository) CreateReport(ctx context.Context, address string) (*
 		return nil, fmt.Errorf("failed to send transaction: %w", err)
 	}
 
-	return &entities.PolygonResponse{
+	return &polygon.PolygonResponse{
 		HashTransaction: signedTx.Hash().Hex(),
 	}, nil
 }

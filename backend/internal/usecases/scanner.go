@@ -3,7 +3,7 @@ package usecases
 import (
 	"context"
 	"fmt"
-	"hashtracker/internal/entities"
+	entities "hashtracker/internal/entities/blockscout"
 	"sync"
 
 	"github.com/puzpuzpuz/xsync/v3"
