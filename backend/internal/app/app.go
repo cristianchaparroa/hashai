@@ -22,7 +22,7 @@ func Run() {
 
 	healthController := http.NewHealthController()
 	txRepo := blockscout.NewTransactionRepository()
-	ensRepo := thegraph.NewENSRepository(cfg.TheGraphApiKey)
+	ensRepo := thegraph.NewENSRepository(cfg.TheGraph.ApiKey)
 	ensValidator := validators.NewENSValidator()
 
 	scannerUseCase := usecases.NewScanner(
@@ -32,7 +32,7 @@ func Run() {
 	)
 	scannerController := http.NewScannerController(scannerUseCase)
 
-	polygonRepo := polygon.NewPolygonRepository(cfg, "abi/HashReporter.abi.json", "0x80576beE4463CE226a9259CF1E5815d3Be8D209F", 80002)
+	polygonRepo := polygon.NewPolygonRepository(cfg)
 	reporterController := http.NewReporterController(polygonRepo)
 
 	s := echo.New()

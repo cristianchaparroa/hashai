@@ -27,13 +27,13 @@ type polygonRepository struct {
 	contractAddress string
 }
 
-func NewPolygonRepository(cfg *config.Config, abiFilePath string, contractAddress string, chainID int64) usecases.PolygonRepository {
+func NewPolygonRepository(cfg *config.Config) usecases.PolygonRepository {
 	return &polygonRepository{
-		privateKey:      cfg.PolygonPrivateKey,
-		rpcURL:          cfg.PolygonRpcURl,
-		chainID:         chainID,
-		abiFilePath:     abiFilePath,
-		contractAddress: contractAddress,
+		privateKey:      cfg.Polygon.PrivateKey,
+		rpcURL:          cfg.Polygon.RpcURl,
+		chainID:         cfg.Polygon.ChainID,
+		abiFilePath:     cfg.ReportContract.AbiFile,
+		contractAddress: cfg.ReportContract.Address,
 	}
 }
 func (p *polygonRepository) CreateReport(ctx context.Context, req *polygon.ReportRequest) (*polygon.PolygonResponse, error) {
