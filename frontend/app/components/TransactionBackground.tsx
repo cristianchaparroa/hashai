@@ -11,7 +11,6 @@ interface TransactionBackgroundProps {
 export default function TransactionBackground({ children }: TransactionBackgroundProps) {
   return (
     <div className={styles.container}>
-      <div className={styles.dotPattern} />
       <div className={styles.content}>
         <h1 className={styles.title}>
           HAS# AI
