@@ -26,7 +26,7 @@ const MermaidDiagram: React.FC<MermaidProps> = ({ diagram, className = '' }) => 
         // Reset mermaid to ensure clean rendering
         mermaid.initialize({
           startOnLoad: false,
-          theme: 'default',
+          theme: 'dark',
           securityLevel: 'loose',
         });
 
@@ -37,6 +37,15 @@ const MermaidDiagram: React.FC<MermaidProps> = ({ diagram, className = '' }) => 
         await mermaid.run({
           querySelector: '.mermaid',
         });
+
+        const svg = elementRef.current.querySelector('svg');
+        if (svg) {
+          svg.style.display = 'block';
+          svg.style.margin = '0 auto';
+          // Ensure SVG maintains aspect ratio and is responsive
+          svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+        }
+
       } catch (err) {
         console.error('Failed to render mermaid diagram:', err);
         if (elementRef.current) {
