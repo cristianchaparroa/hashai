@@ -1,0 +1,7 @@
+polygon:
+  rpc_url: https://polygon-amoy.g.alchemy.com/v2/cLCTETfGYLtswAlpQ-sbxOrmsy6sNW5w
+  chain_id: 80002
+
+report_contract:
+  address: 0x9D3F7FaA66F50C6c5ddfCd226e9A1fa50b07Cec0
+  abi_file: abi/HashReporter.abi.json
