@@ -58,7 +58,7 @@ In order to start to use the chat bot you  should follow the next steps:
 3. Open the link https://converse.xyz/dm/0x61C9AB5968b49905dE120C699E140044ed77Bd2E that will redirect to the HashAI bot
 4. Starting to interact with the bot, i.e: 
 
-- Could you like to give me the transactions of the address 0x12345? 
+- Could you give me the transactions of the address 0x12345? 
 - Could you verify if the address 0x12345 has been blacklisted?
 - I have been scammed for someone that uses the 0x12345 address, the guy send me a link and after open it I lost my founds from my wallet 0x8888, could you report it? 
 
