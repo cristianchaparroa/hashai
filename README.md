@@ -47,7 +47,7 @@ Verify a blacklisted address:
 
 Currently there are two contracts:
 1. **HashReport**, this contract intend to be where the community create address complaints. Once the record is stored it will emit an event and the subgraph will index the information to be queried
-2. **Blacklist**, the information stored in this contract will be collected, curated by the HashAI team, and it will preserve the same structure to the HashReport contract. 
+2. **Blacklist**, the information stored in this contract will be collected, curated by the HashAI team, and it will preserve the same structure as the HashReport contract. 
 
 Polygon Network: Amoy.
 
