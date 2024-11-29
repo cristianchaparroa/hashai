@@ -2,6 +2,10 @@ polygon:
   rpc_url: https://polygon-amoy.g.alchemy.com/v2/cLCTETfGYLtswAlpQ-sbxOrmsy6sNW5w
   chain_id: 80002
 
+blacklist_contract:
+  address: 0x7c771ba6242a4954d994c0eefdda8ddb894fe21b
+  abi_file: abi/Blacklist.abi.json
+
 report_contract:
   address: 0x9D3F7FaA66F50C6c5ddfCd226e9A1fa50b07Cec0
   abi_file: abi/HashReporter.abi.json

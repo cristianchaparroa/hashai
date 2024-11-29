@@ -5,9 +5,12 @@ import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 
 contract Blacklist {
     using ECDSA for bytes32;
+    uint256 public constant MAX_BATCH_SIZE = 100;
 
     error NoReportFound();
     error InvalidSignature();
+    error InvalidNonce();
+    error InvalidLength();
 
     struct Report {
         uint256 count;
@@ -41,13 +44,36 @@ contract Blacklist {
         string source
     );
 
-    function executeOperation(UserOperation calldata userOp) external {
-        require(userOp.nonce == nonces[userOp.sender], "Invalid nonce");
+    function executeBatchOperations(UserOperation[] calldata userOps) external {
+        require(userOps.length <= MAX_BATCH_SIZE, "Batch too large");
 
-        bytes32 hash = getOperationHash(userOp);
-        address signer = hash.recover(userOp.signature);
-        require(signer == userOp.sender, "Invalid signature");
+        // Use memory for temporary storage
+        address sender = userOps[0].sender;
+        uint256 currentNonce = nonces[sender];
 
+        // Validate all operations first
+        for(uint256 i = 0; i < userOps.length;) {
+            require(userOps[i].sender == sender, "Mixed senders");
+            require(userOps[i].nonce == currentNonce + i, "Invalid nonce sequence");
+
+            bytes32 hash = getOperationHash(userOps[i]);
+            address signer = hash.recover(userOps[i].signature);
+            require(signer == sender, "Invalid signature");
+
+            unchecked { ++i; }
+        }
+
+        // Process operations
+        for(uint256 i = 0; i < userOps.length;) {
+            _processOperation(userOps[i]);
+            unchecked { ++i; }
+        }
+
+        // Update nonce once
+        nonces[sender] += userOps.length;
+    }
+
+    function _processOperation(UserOperation calldata userOp) internal {
         Report storage report = reports[userOp.reportedAddress];
 
         if (!report.exists) {
@@ -63,8 +89,6 @@ contract Blacklist {
             }
             report.category = userOp.category;
         }
-
-        nonces[userOp.sender]++;
 
         emit Blacklisted(
             userOp.reportedAddress,

@@ -11,10 +11,10 @@ import (
 )
 
 type ReporterController struct {
-	rp usecases.PolygonRepository
+	rp usecases.HashReportRepository
 }
 
-func NewReporterController(rp usecases.PolygonRepository) *ReporterController {
+func NewReporterController(rp usecases.HashReportRepository) *ReporterController {
 	return &ReporterController{
 		rp: rp,
 	}

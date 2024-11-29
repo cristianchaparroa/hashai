@@ -2,9 +2,10 @@ package polygon
 
 import (
 	"errors"
-	"github.com/labstack/echo/v4"
 	"math/big"
 	"time"
+
+	"github.com/labstack/echo/v4"
 )
 
 type ReportRequest struct {
