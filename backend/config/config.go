@@ -21,6 +21,11 @@ type Config struct {
 		Address string `env:"REPORT_ADDRESS" yaml:"address"`
 		AbiFile string `env:"REPORT_ABI_FILE" yaml:"abi_file"`
 	} `yaml:"report_contract"`
+
+	BlackListContract struct {
+		Address string `env:"BLACKLIST_ADDRESS" yaml:"address"`
+		AbiFile string `env:"BLACKLIST_ABI_FILE" yaml:"abi_file"`
+	} `yaml:"blacklist_contract"`
 }
 
 func New() (*Config, error) {

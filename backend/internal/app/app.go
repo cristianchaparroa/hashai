@@ -32,7 +32,7 @@ func Run() {
 	)
 	scannerController := http.NewScannerController(scannerUseCase)
 
-	polygonRepo := polygon.NewPolygonRepository(cfg)
+	polygonRepo := polygon.NewHashReportRepository(cfg)
 	reporterController := http.NewReporterController(polygonRepo)
 
 	s := echo.New()

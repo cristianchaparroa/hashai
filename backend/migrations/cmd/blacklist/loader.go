@@ -9,6 +9,8 @@ import (
 	"math/big"
 	"os"
 	"time"
+
+	"github.com/ethereum/go-ethereum/common"
 )
 
 type Loader interface {
@@ -16,12 +18,12 @@ type Loader interface {
 }
 
 type loader struct {
-	polygonRepository usecases.PolygonRepository
+	blacklistRepo usecases.BlacklistReportRepository
 }
 
-func NewLoader(pr usecases.PolygonRepository) Loader {
+func NewLoader(br usecases.BlacklistReportRepository) Loader {
 	return &loader{
-		polygonRepository: pr,
+		blacklistRepo: br,
 	}
 }
 
@@ -41,6 +43,7 @@ func (l *loader) Load(ctx context.Context, filePath string) error {
 	count := 0
 	nErrors := 0
 	startTime := time.Now()
+	reports := make([]*polygon.BatchReport, 0)
 
 	for decoder.More() {
 		var address ReportedAddress
@@ -51,22 +54,21 @@ func (l *loader) Load(ctx context.Context, filePath string) error {
 			continue
 		}
 		count++
-		tx, createErr := l.polygonRepository.CreateReport(ctx, &polygon.ReportRequest{
-			Address:  address.Address,
-			Comments: address.Comment,
-			Source:   "hashai-migration",
-			Date:     big.NewInt(time.Now().Unix()),
-		})
-		if createErr != nil {
-			fmt.Printf("error creating report entry on Polygon: %v\n", createErr)
-			continue
+		r := &polygon.BatchReport{
+			ReportedAddress: common.HexToAddress(address.Address),
+			Comments:        address.Comment,
+			Source:          "hashai-migration",
+			Date:            big.NewInt(time.Now().Unix()),
 		}
-		// Print progress every 1000 entries
-		if count%1000 == 0 {
-			fmt.Printf("Processed %d addresses...\n", count)
-		}
-		fmt.Printf("https://amoy.polygonscan.com/tx/%s\n", tx.HashTransaction)
+
+		reports = append(reports, r)
 	}
+
+	createReportErr := l.blacklistRepo.CreateBatchReport(ctx, reports)
+	if createReportErr != nil {
+		return fmt.Errorf("error creating batch report: %v", createReportErr)
+	}
+
 	// Print final statistics
 	duration := time.Since(startTime)
 	fmt.Printf("\nProcessing complete:\n")

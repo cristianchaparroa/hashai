@@ -19,49 +19,48 @@ import (
 	"github.com/ethereum/go-ethereum/ethclient"
 )
 
-type polygonRepository struct {
-	privateKey      string
-	rpcURL          string
-	chainID         int64
-	abiFilePath     string
-	contractAddress string
+type hashReportRepository struct {
+	contract *ContractConfig
 }
 
-func NewPolygonRepository(cfg *config.Config) usecases.PolygonRepository {
-	return &polygonRepository{
-		privateKey:      cfg.Polygon.PrivateKey,
-		rpcURL:          cfg.Polygon.RpcURl,
-		chainID:         cfg.Polygon.ChainID,
-		abiFilePath:     cfg.ReportContract.AbiFile,
-		contractAddress: cfg.ReportContract.Address,
+func NewHashReportRepository(cfg *config.Config) usecases.HashReportRepository {
+	contract := &ContractConfig{
+		PrivateKey:      cfg.Polygon.PrivateKey,
+		RpcURL:          cfg.Polygon.RpcURl,
+		ChainID:         cfg.Polygon.ChainID,
+		AbiFilePath:     cfg.ReportContract.AbiFile,
+		ContractAddress: cfg.ReportContract.Address,
+	}
+	return &hashReportRepository{
+		contract: contract,
 	}
 }
-func (p *polygonRepository) CreateReport(ctx context.Context, req *polygon.ReportRequest) (*polygon.PolygonResponse, error) {
+func (p *hashReportRepository) CreateReport(ctx context.Context, req *polygon.ReportRequest) (*polygon.PolygonResponse, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
 	defer cancel()
 
-	client, err := ethclient.DialContext(ctx, p.rpcURL)
+	client, err := ethclient.DialContext(ctx, p.contract.RpcURL)
 	if err != nil {
 		return nil, fmt.Errorf("failed to connect to Polygon node: %w", err)
 	}
 
 	// Load private key
-	privateKey, err := crypto.HexToECDSA(p.privateKey)
+	privateKey, err := crypto.HexToECDSA(p.contract.PrivateKey)
 	if err != nil {
 		return nil, fmt.Errorf("failed to load private key: %w", err)
 	}
 
 	// Create transactor
-	auth, err := bind.NewKeyedTransactorWithChainID(privateKey, big.NewInt(p.chainID))
+	auth, err := bind.NewKeyedTransactorWithChainID(privateKey, big.NewInt(p.contract.ChainID))
 	if err != nil {
 		return nil, fmt.Errorf("failed to create transactor: %w", err)
 	}
 
 	// Contract address
-	contractAddress := common.HexToAddress(p.contractAddress)
+	contractAddress := common.HexToAddress(p.contract.ContractAddress)
 
 	// Load ABI from a file
-	abiContent, err := os.ReadFile(p.abiFilePath)
+	abiContent, err := os.ReadFile(p.contract.AbiFilePath)
 	if err != nil {
 		return nil, fmt.Errorf("failed to read ABI file: %w", err)
 	}
@@ -118,7 +117,7 @@ func (p *polygonRepository) CreateReport(ctx context.Context, req *polygon.Repor
 	)
 
 	// Sign transaction
-	chainID := big.NewInt(p.chainID)
+	chainID := big.NewInt(p.contract.ChainID)
 	signedTx, err := types.SignTx(tx, types.NewEIP155Signer(chainID), privateKey)
 	if err != nil {
 		return nil, fmt.Errorf("failed to sign transaction: %w", err)
