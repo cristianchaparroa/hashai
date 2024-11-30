@@ -1,0 +1,146 @@
+[
+  { "inputs": [], "name": "ECDSAInvalidSignature", "type": "error" },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "length", "type": "uint256" }
+    ],
+    "name": "ECDSAInvalidSignatureLength",
+    "type": "error"
+  },
+  {
+    "inputs": [{ "internalType": "bytes32", "name": "s", "type": "bytes32" }],
+    "name": "ECDSAInvalidSignatureS",
+    "type": "error"
+  },
+  { "inputs": [], "name": "InvalidLength", "type": "error" },
+  { "inputs": [], "name": "InvalidNonce", "type": "error" },
+  { "inputs": [], "name": "InvalidSignature", "type": "error" },
+  { "inputs": [], "name": "NoReportFound", "type": "error" },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "reportedAddress",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "count",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "category",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "date",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "comments",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "source",
+        "type": "string"
+      }
+    ],
+    "name": "Blacklisted",
+    "type": "event"
+  },
+  {
+    "inputs": [],
+    "name": "MAX_BATCH_SIZE",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "components": [
+          { "internalType": "address", "name": "sender", "type": "address" },
+          {
+            "internalType": "address",
+            "name": "reportedAddress",
+            "type": "address"
+          },
+          { "internalType": "uint256", "name": "category", "type": "uint256" },
+          { "internalType": "string", "name": "comments", "type": "string" },
+          { "internalType": "string", "name": "source", "type": "string" },
+          { "internalType": "uint256", "name": "date", "type": "uint256" },
+          { "internalType": "uint256", "name": "nonce", "type": "uint256" },
+          { "internalType": "bytes", "name": "signature", "type": "bytes" }
+        ],
+        "internalType": "struct Blacklist.UserOperation[]",
+        "name": "userOps",
+        "type": "tuple[]"
+      }
+    ],
+    "name": "executeBatchOperations",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "components": [
+          { "internalType": "address", "name": "sender", "type": "address" },
+          {
+            "internalType": "address",
+            "name": "reportedAddress",
+            "type": "address"
+          },
+          { "internalType": "uint256", "name": "category", "type": "uint256" },
+          { "internalType": "string", "name": "comments", "type": "string" },
+          { "internalType": "string", "name": "source", "type": "string" },
+          { "internalType": "uint256", "name": "date", "type": "uint256" },
+          { "internalType": "uint256", "name": "nonce", "type": "uint256" },
+          { "internalType": "bytes", "name": "signature", "type": "bytes" }
+        ],
+        "internalType": "struct Blacklist.UserOperation",
+        "name": "userOp",
+        "type": "tuple"
+      }
+    ],
+    "name": "getOperationHash",
+    "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "reportedAddress",
+        "type": "address"
+      }
+    ],
+    "name": "getReportByAddress",
+    "outputs": [
+      { "internalType": "uint256", "name": "count", "type": "uint256" },
+      { "internalType": "uint256", "name": "category", "type": "uint256" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "name": "nonces",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  }
+]

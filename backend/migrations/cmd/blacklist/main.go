@@ -16,7 +16,7 @@ func main() {
 	}
 
 	gfs := filesys.NewGitFileSystem()
-	filePath, getFileError := gfs.GetGitFilePath("backend/migrations/datasets/addresses-darklist-test.json")
+	filePath, getFileError := gfs.GetGitFilePath("backend/migrations/datasets/addresses-darklist.json")
 	if getFileError != nil {
 		panic(getFileError)
 	}

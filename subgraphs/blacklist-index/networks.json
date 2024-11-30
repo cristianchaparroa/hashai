@@ -1,8 +1,8 @@
 {
   "polygon-amoy": {
-    "HashReporter": {
-      "address": "0x4672A4bd4F33C059F0039d15d458AD9257C95dFD",
-      "startBlock": 14663107
+    "Blacklist": {
+      "address": "0x7c771ba6242a4954d994c0eefdda8ddb894fe21b",
+      "startBlock": 14993397
     }
   }
 }

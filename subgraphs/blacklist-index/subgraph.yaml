@@ -5,22 +5,22 @@ schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum
-    name: HashReporter
+    name: Blacklist
     network: polygon-amoy
     source:
-      address: "0x4672A4bd4F33C059F0039d15d458AD9257C95dFD"
-      abi: HashReporter
-      startBlock: 14663107
+      address: "0x7c771ba6242a4954d994c0eefdda8ddb894fe21b"
+      abi: Blacklist
+      startBlock: 14993397
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
       language: wasm/assemblyscript
       entities:
-        - ReportCreated
+        - Blacklisted
       abis:
-        - name: HashReporter
-          file: ./abis/HashReporter.json
+        - name: Blacklist
+          file: ./abis/Blacklist.json
       eventHandlers:
-        - event: ReportCreated(indexed address,uint256,uint256)
-          handler: handleReportCreated
-      file: ./src/hash-reporter.ts
+        - event: Blacklisted(indexed address,uint256,uint256,uint256,string,string)
+          handler: handleBlacklisted
+      file: ./src/blacklist.ts

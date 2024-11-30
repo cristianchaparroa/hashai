@@ -1,6 +1,6 @@
 import { gql, request } from 'graphql-request';
 
-const url = 'https://api.studio.thegraph.com/query/91524/blacklist-index/version/latest'
+const url = 'https://api.studio.thegraph.com/query/91524/blacklist-index/v0.0.10-2'
 
 export async function getBlacklist(
     address:string

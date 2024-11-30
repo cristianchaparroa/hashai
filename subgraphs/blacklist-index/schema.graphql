@@ -1,8 +1,11 @@
-type ReportCreated @entity(immutable: true) {
+type Blacklisted @entity(immutable: true) {
   id: Bytes!
   reportedAddress: Bytes! # address
   count: BigInt! # uint256
   category: BigInt! # uint256
+  date: BigInt! # uint256
+  comments: String! # string
+  source: String! # string
   blockNumber: BigInt!
   blockTimestamp: BigInt!
   transactionHash: Bytes!
