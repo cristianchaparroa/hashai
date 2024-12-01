@@ -10,3 +10,24 @@ type Blacklisted @entity(immutable: true) {
   blockTimestamp: BigInt!
   transactionHash: Bytes!
 }
+type OwnershipTransferred @entity(immutable: true) {
+  id: Bytes!
+  previousOwner: Bytes! # address
+  newOwner: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type ReportCreated @entity(immutable: true) {
+  id: Bytes!
+  reportedAddress: Bytes! # address
+  count: BigInt! # uint256
+  category: BigInt! # uint256
+  date: BigInt! # uint256
+  comments: String! # string
+  source: String! # string
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
