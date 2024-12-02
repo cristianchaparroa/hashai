@@ -56,7 +56,7 @@ func NewBlacklistRepository(config *ContractConfig, client eth.Client) (usecases
 }
 
 func (r *BlacklistRepository) CreateBatchReport(ctx context.Context, reports []*polygon.BatchReport) error {
-	const batchSize = 100 // Adjust based on gas limits and network conditions
+	const batchSize = 20 // Adjust based on gas limits and network conditions
 
 	chunks := len(reports)/batchSize + 1
 	for i := 0; i < chunks; i++ {
@@ -77,6 +77,7 @@ func (r *BlacklistRepository) CreateBatchReport(ctx context.Context, reports []*
 
 		// Add delay between chunks to avoid nonce issues
 		time.Sleep(10 * time.Millisecond)
+		fmt.Println("chunk processed: ", i)
 	}
 	return nil
 }
