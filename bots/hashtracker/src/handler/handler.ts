@@ -1,10 +1,10 @@
-import {XMTPContext, SkillResponse, getUserInfo} from "@xmtp/message-kit";
+import {Context, SkillResponse} from "@xmtp/message-kit";
 import {fetchTransactions} from "../services/transactions.js";
 import { shortenUrl } from 'shaveurl';
 import {createReport} from "../services/reports.js";
 import {getBlacklist} from "../services/blacklist.js";
 
-export async function transactionsHandler(context: XMTPContext): Promise<SkillResponse | undefined> {
+export async function transactionsHandler(context: Context): Promise<SkillResponse | undefined> {
     const {
         message: {
             content: {
@@ -22,7 +22,7 @@ export async function transactionsHandler(context: XMTPContext): Promise<SkillRe
     };
 }
 
-export async function reportHandler(context: XMTPContext): Promise<SkillResponse | undefined> {
+export async function reportHandler(context: Context): Promise<SkillResponse | undefined> {
     const {
         message: {
             content: {
@@ -35,7 +35,7 @@ export async function reportHandler(context: XMTPContext): Promise<SkillResponse
     return { code: 200, message: `${address} reported...` };
 }
 
-export async function getBlacklistHandler(context: XMTPContext): Promise<SkillResponse | undefined> {
+export async function getBlacklistHandler(context: Context): Promise<SkillResponse | undefined> {
     const {
         message: {
             content: {

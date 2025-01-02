@@ -9,7 +9,7 @@
     "postinstall": "tsc"
   },
   "dependencies": {
-    "@xmtp/message-kit": "1.2.21",
+    "@xmtp/message-kit": "1.2.32",
     "graphql-request": "^7.1.2",
     "shaveurl": "^1.1.7"
   },
