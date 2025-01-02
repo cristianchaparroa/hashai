@@ -1,7 +1,7 @@
 import {getBlacklistHandler, reportHandler, transactionsHandler} from "./handler/handler.js";
-import { SkillGroup, SkillParamConfig } from "@xmtp/message-kit";
+import {Skill, SkillParamConfig } from "@xmtp/message-kit";
 
-export const transactionSkills:SkillGroup["skills"] =  [
+export const transactionSkills:Skill[] =  [
     {
         skill: "/report [addres]",
         handler: reportHandler,
