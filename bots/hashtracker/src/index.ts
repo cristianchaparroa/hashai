@@ -1,8 +1,6 @@
 import {
     run,
-    XMTPContext,
-    agentReply,
-    replaceVariables, Skill, Agent,
+    Agent,
 } from "@xmtp/message-kit";
 import { transactionSkills} from "./skills.js";
 import { systemPrompt } from "./prompt.js";
@@ -15,17 +13,7 @@ export const agent: Agent = {
     skills: [
         ...transactionSkills,
     ],
+    systemPrompt: systemPrompt,
 };
 
-run(
-    async (context:XMTPContext) => {
-        const {
-            message: { sender },
-            runConfig,
-        } = context;
-
-        let prompt = await replaceVariables(systemPrompt, sender.address, agent);
-        await agentReply(context, prompt);
-    },
-    { agent },
-);
+run( agent );
