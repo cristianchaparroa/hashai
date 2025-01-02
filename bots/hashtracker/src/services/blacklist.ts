@@ -25,6 +25,7 @@ export async function getBlacklist(
     const data =  JSON.stringify(result, null, 2);
     let report = JSON.parse(data);
     console.log(report);
+
     if (report.blacklisteds.length) {
         return {
             isBlacklisted :true,

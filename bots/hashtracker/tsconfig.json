@@ -10,7 +10,8 @@
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
     "lib": [
-      "ESNext"
+      "ESNext",
+      "dom"
     ],
     "module": "ESNext",
     "moduleResolution": "node",
