@@ -44,5 +44,5 @@ export async function getBlacklistHandler(context: XMTPContext): Promise<SkillRe
         },
     } = context;
     let result = await getBlacklist(address);
-    return { code: 200, message: `The address ${address} is blacklisted: ${result.isBlacklisted}` };
+    return { code: 200, message: `The address ${address} is \n${result.isBlacklisted ? '🚫 BLACKLISTED' : '✅ CLEAR'}` };
 }
